@@ -33,3 +33,7 @@
 <br><br><br><br>
 
 </details>
+
+## 2. ERD
+
+<img src="docs/erd_concert_202501.png">
