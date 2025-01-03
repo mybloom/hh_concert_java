@@ -41,4 +41,6 @@
 ## 3. API 명세서 
 - [API 명세서 문서 링크](https://github.com/mybloom/hh_concert_java/issues/2)
 - [Mock API 링크(로컬용)](http://localhost:8080/swagger-ui/index.html)
- 
+
+## 4. 패키지 구조
+<img src="docs/패키지구조.png">
