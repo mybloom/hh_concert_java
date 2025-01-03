@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.token.web;
 
+import io.swagger.v3.oas.annotations.Operation;
 import kr.hhplus.be.server.apiresponse.ApiResponse;
 import kr.hhplus.be.server.domain.token.web.dto.TokenRequest;
 import kr.hhplus.be.server.domain.token.web.dto.TokenResponse;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TokenController {
 
+    @Operation(summary = "토큰생성", description = "토큰생성 API")
     @PostMapping("/api/queue/token")
     public ResponseEntity<ApiResponse<TokenResponse>> createToken(
         @RequestBody TokenRequest request) {
