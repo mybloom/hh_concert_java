@@ -50,6 +50,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	runtimeOnly("com.h2database:h2")
+
+	//swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 }
 
 tasks.withType<Test> {
