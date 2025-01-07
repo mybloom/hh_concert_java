@@ -6,5 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class PointResponse {
-    private long amount;
+    private long balance;
+
+    public static PointResponse of(long balance) {
+        return new PointResponse(balance);
+    }
 }
