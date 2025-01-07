@@ -26,8 +26,9 @@ public class PointController {
 
     @Operation(summary = "포인트 조회", description = "포인트 조회 API")
     @GetMapping("/api/points")
-    public PointResponse checkPoint(@RequestParam(required = true) long userId) {
-        return null;
+    public PointResponse checkPoint(@RequestParam(name = "userId", required = true) long userId) {
+        long balance = pointService.getBalance(userId);
+        return PointResponse.of(balance);
     }
 
 }

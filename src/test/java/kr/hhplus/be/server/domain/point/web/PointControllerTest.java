@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.point.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -51,4 +52,24 @@ class PointControllerTest {
             jsonPath("$.data.balance").value(expectedBalance)
         ).andDo(print());
     }
+
+    @DisplayName("포인트 조회 후 정상적으로 잔액이 반환된다.")
+    @Test
+    void retrievePoint() throws Exception {
+        // Given
+        long userId = 1L;
+        long expectedBalance = 0L;
+
+        // When
+        final ResultActions result = mockMvc.perform(get("/api/points")
+            .param("userId", String.valueOf(userId))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        result.andExpectAll(
+            status().isOk(),
+            jsonPath("$.data.balance").value(expectedBalance)
+        ).andDo(print());
+    }
+
 }
