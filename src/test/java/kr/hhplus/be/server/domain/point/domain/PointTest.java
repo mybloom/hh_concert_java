@@ -1,6 +1,7 @@
 package kr.hhplus.be.server.domain.point.domain;
 
 import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +57,7 @@ class PointTest {
      잔액 사용 후 정상적으로 잔액이 감소한다.
      사용 금액이 0 또는 음수일 경우 IllegalArgumentException이 발생한다.
      사용 후 잔액이 음수가 되면 IllegalArgumentException이 발생한다.*/
-    @DisplayName("사용 금액이 0일 경우 Exception 발생한다.")
+    @DisplayName("사용 금액이 0일 경우 Exception 발생한다")
     @Test
     void useZeroAmount() {
         //given
@@ -69,21 +70,39 @@ class PointTest {
             .hasMessageContaining(INVALID_USE_AMOUNT.getMessage());
     }
 
-    @DisplayName("사용 후 잔액이 음수가 되면 Exception 발생한다.")
+    @DisplayName("사용후 잔액이 음수가 되면 예외가 발생한다")
     @Test
-    void useNegativeAmount() {
+    void throwWhenBalanceBecomesNegative() {
         //given
-        long currentPoints = 10;
-        long usePoints = 100;
+        long currentBalance = 10;
+        long useBalance = 100;
 
         Point point = new Point();
         point.setUserId(1L);
-        point.charge(currentPoints);
+        point.charge(currentBalance);
 
         //when&then
-        assertThatThrownBy(() -> point.use(usePoints))
+        assertThatThrownBy(() -> point.use(useBalance))
             .isInstanceOf(BusinessIllegalArgumentException.class)
             .hasMessageContaining(INSUFFICIENT_BALANCE.getMessage());
+    }
+
+    @DisplayName("기존 잔액 100원에서 10원 사용 후 정상적으로 잔액이 감소한다")
+    @Test
+    void decreasesBalance() {
+    	//given
+        long currentBalance = 100;
+        long useBalance = 10;
+
+        Point point = new Point();
+        point.setUserId(1L);
+        point.charge(currentBalance);
+
+    	//when
+        long balance = point.use(useBalance);
+
+    	//then
+        assertThat(balance).isEqualTo(currentBalance - useBalance);
     }
 
 }
