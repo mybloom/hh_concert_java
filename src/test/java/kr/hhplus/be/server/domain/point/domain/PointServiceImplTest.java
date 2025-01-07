@@ -1,12 +1,14 @@
 package kr.hhplus.be.server.domain.point.domain;
 
+import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +42,19 @@ class PointServiceImplTest {
     	//then
         assertThat(balance).isEqualTo(100L);
         verify(pointRepository, times(1)).findByUserId(userId);
+    }
+
+    @DisplayName("사용금액이 0일 경우 예외가 발생한다")
+    @Test
+    void throwWhenAmountIsZero() {
+        //given
+        long userId = 1L;
+        Point point = new Point();
+
+        //then
+        assertThatThrownBy(() -> point.use(0L))
+            .isInstanceOf(BusinessIllegalArgumentException.class)
+            .hasMessageContaining(INVALID_USE_AMOUNT.getMessage());
     }
 
 }

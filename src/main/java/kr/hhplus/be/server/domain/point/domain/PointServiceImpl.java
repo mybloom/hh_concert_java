@@ -19,4 +19,14 @@ public class PointServiceImpl implements PointService {
 
         return balance;
     }
+
+    @Override
+    public long use(long userId, long amount) {
+        Point point = pointRepository.findByUserId(userId)
+            .orElseThrow();
+        point.use(amount);
+
+        pointRepository.save(point);
+        return point.getBalance();
+    }
 }
