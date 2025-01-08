@@ -13,4 +13,6 @@ public interface QueueTokenRepository {
     Optional<QueueToken> findByUser(User user);
 
     void delete(QueueToken queueToken);
+
+    QueueToken findQueueTokenWithMaxId();
 }

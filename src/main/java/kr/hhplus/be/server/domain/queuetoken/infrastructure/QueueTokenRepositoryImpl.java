@@ -33,4 +33,9 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     public void delete(QueueToken queueToken) {
         queueTokenJpaRepository.delete(queueToken);
     }
+
+    @Override
+    public QueueToken findQueueTokenWithMaxId() {
+        return queueTokenJpaRepository.findQueueTokenWithMaxId();
+    }
 }

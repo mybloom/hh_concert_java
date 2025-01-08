@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class WaitTokenInfo {
 
-    long waitOrder;
+    long waitOffset;
 
-    public static WaitTokenInfo of(long waitOrder) {
+    public static WaitTokenInfo of(long waitOffset) {
         WaitTokenInfo waitTokenInfo = new WaitTokenInfo();
-        waitTokenInfo.waitOrder = waitOrder;
+        waitTokenInfo.waitOffset = waitOffset;
         return waitTokenInfo;
     }
 }

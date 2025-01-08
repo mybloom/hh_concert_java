@@ -25,10 +25,11 @@ public class QueueTokenService {
         // 2. 토큰을 상태에 맞게 생성한다.
         QueueToken queueToken;
         if (hasExceededLimit) {
-            long waitTokenCounts = queueTokenRepository.countByStatus(QueueTokenStatus.WAIT);
-            long waitOrder = waitTokenCounts + 1;
+            //wait offset 구하기
+            QueueToken queueTokenWithMaxId = queueTokenRepository.findQueueTokenWithMaxId();
+            long waitOffset = queueTokenWithMaxId.getWaitOffset() + 1;
 
-            queueToken = QueueToken.createWaitToken(user, waitOrder);
+            queueToken = QueueToken.createWaitToken(user, waitOffset);
         } else {
             queueToken = QueueToken.createActiveToken(user);
         }
@@ -39,7 +40,7 @@ public class QueueTokenService {
         // 4. 생성된 토큰을 반환한다.
         if (hasExceededLimit) {
             return QueueTokenResponse.waitQueueTokenResponse(queueToken,
-                WaitTokenInfo.of(queueToken.getWaitOrder()));
+                WaitTokenInfo.of(queueToken.getWaitOffset()));
         } else {
             return QueueTokenResponse.activeQueueTokenResponse(queueToken);
         }

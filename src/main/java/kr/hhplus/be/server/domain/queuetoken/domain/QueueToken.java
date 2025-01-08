@@ -42,14 +42,14 @@ public class QueueToken extends BaseEntity {
 
     private LocalDateTime runningExpiredAt;
 
-    private Long waitOrder;
+    private Long waitOffset;
 
-    public static QueueToken createWaitToken(User user, Long waitOrder) {
+    public static QueueToken createWaitToken(User user, Long waitOffset) {
         return QueueToken.builder()
             .user(user)
             .status(QueueTokenStatus.WAIT)
             .tokenUuid(generateUuid())
-            .waitOrder(waitOrder)
+            .waitOffset(waitOffset)
             .build();
     }
 
