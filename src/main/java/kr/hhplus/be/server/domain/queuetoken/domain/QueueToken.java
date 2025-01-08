@@ -2,6 +2,8 @@ package kr.hhplus.be.server.domain.queuetoken.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,18 +37,12 @@ public class QueueToken extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
     private QueueTokenStatus status;
 
     private LocalDateTime runningExpiredAt;
 
     private Long waitOrder;
-
-    public static boolean isExceededLimit(long threshold, long runningTokenCounts) {
-        if (runningTokenCounts >= threshold) {
-            return true;
-        }
-        return false;
-    }
 
     public static QueueToken createWaitToken(User user, Long waitOrder) {
         return QueueToken.builder()
