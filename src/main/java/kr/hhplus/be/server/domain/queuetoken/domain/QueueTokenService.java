@@ -20,13 +20,15 @@ public class QueueTokenService {
         // 1. 임계치 도달을 확인한다.
         // todo: 매번 active 토큰수를 확인해야 할까? 캐싱 필요해 보인다.
         long activeTokenCounts = queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE);
-        boolean hasExceededLimit = QueueToken.isExceededLimit(queueTokenProperties.getThreshold(), activeTokenCounts);
+        boolean hasExceededLimit = isActiveTokenCountExceeded(activeTokenCounts);
 
         // 2. 토큰을 상태에 맞게 생성한다.
         QueueToken queueToken;
         if (hasExceededLimit) {
             long waitTokenCounts = queueTokenRepository.countByStatus(QueueTokenStatus.WAIT);
-            queueToken = QueueToken.createWaitToken(user, waitTokenCounts + 1);
+            long waitOrder = waitTokenCounts + 1;
+
+            queueToken = QueueToken.createWaitToken(user, waitOrder);
         } else {
             queueToken = QueueToken.createActiveToken(user);
         }
@@ -36,10 +38,21 @@ public class QueueTokenService {
 
         // 4. 생성된 토큰을 반환한다.
         if (hasExceededLimit) {
-            return QueueTokenResponse.waitQueueTokenResponse(queueToken, WaitTokenInfo.of(queueToken.getWaitOrder()));
+            return QueueTokenResponse.waitQueueTokenResponse(queueToken,
+                WaitTokenInfo.of(queueToken.getWaitOrder()));
         } else {
             return QueueTokenResponse.activeQueueTokenResponse(queueToken);
         }
     }
 
+    public boolean isActiveTokenCountExceeded(long runningTokenCounts) {
+        int threshold = queueTokenProperties.getThreshold();
+
+        if (runningTokenCounts >= threshold) {
+            return true;
+        }
+        return false;
+    }
+
 }
+
