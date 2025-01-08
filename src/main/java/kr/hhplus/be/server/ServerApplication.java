@@ -5,7 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "kr.hhplus.be.server.domain.point.infrastructure")
+@EnableJpaRepositories(basePackages = {
+	"kr.hhplus.be.server.domain.point.infrastructure",
+	"kr.hhplus.be.server.domain.queuetoken.infrastructure",
+	"kr.hhplus.be.server.domain.user.infrastructure"
+})
+
 public class ServerApplication {
 
 	public static void main(String[] args) {
