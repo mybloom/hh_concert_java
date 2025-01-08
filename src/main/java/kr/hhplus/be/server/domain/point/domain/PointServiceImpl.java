@@ -13,10 +13,12 @@ public class PointServiceImpl implements PointService {
 
     @Override
     public long charge(long userId, long amount) {
-        Long balance = pointRepository.findByUserId(userId)
-            .map(point -> point.charge(amount))
-            .orElseThrow();
+        Point point = pointRepository.findByUserId(userId)
+            .orElse(Point.create(userId));
+        point.charge(amount);
 
-        return balance;
+        point = pointRepository.save(point);
+
+        return point.getBalance();
     }
 }

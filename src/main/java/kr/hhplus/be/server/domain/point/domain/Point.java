@@ -9,9 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import kr.hhplus.be.server.common.config.database.BaseEntity;
 import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Getter
 @Entity
 public class Point extends BaseEntity {
@@ -25,6 +33,13 @@ public class Point extends BaseEntity {
     @Setter
     @Column(unique = true)
     private long userId;
+
+    public static Point create(long userId) {
+        return Point.builder()
+            .userId(userId)
+            .balance(0)
+            .build();
+    }
 
     public long charge(long amount) {
         if (amount <= 0) {
