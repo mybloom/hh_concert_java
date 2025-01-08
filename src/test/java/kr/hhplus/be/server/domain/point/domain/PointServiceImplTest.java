@@ -1,17 +1,16 @@
 package kr.hhplus.be.server.domain.point.domain;
 
-import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.times;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
-import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,36 +24,65 @@ class PointServiceImplTest {
     @Mock
     private PointRepository pointRepository;
 
-    @DisplayName("유저가 존재할 때 포인트 충전 잔액이 증가한다")
+    @DisplayName("처음 포인트를 충전하는 사용자는 Point 데이터가 없다가 생성된다")
     @Test
-    void chargeWhenUserExists() {
-    	//given
+    void firstTimePointChargeCreatesData() {
+        // given
         long userId = 1L;
-        Point point = new Point();
-        point.setUserId(userId);
-
-        when(pointRepository.findByUserId(userId)).thenReturn(Optional.of(point));
-
-        //when
         long amount = 100L;
+
+        when(pointRepository.findByUserId(userId)).thenReturn(Optional.empty());
+
+        // Capturing the Point object created for saving
+        ArgumentCaptor<Point> pointCaptor = ArgumentCaptor.forClass(Point.class);
+
+        // Mocking the save method to return the saved Point
+        when(pointRepository.save(any(Point.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // when
         long balance = pointService.charge(userId, amount);
 
-    	//then
-        assertThat(balance).isEqualTo(100L);
-        verify(pointRepository, times(1)).findByUserId(userId);
+        // then
+        verify(pointRepository).findByUserId(userId);
+        verify(pointRepository).save(pointCaptor.capture());
+
+        Point savedPoint = pointCaptor.getValue();
+        assertThat(balance).isEqualTo(amount);
+        assertThat(userId).isEqualTo(savedPoint.getUserId());
+        assertThat(amount).isEqualTo(savedPoint.getBalance());
     }
 
-    @DisplayName("사용금액이 0일 경우 예외가 발생한다")
+    @DisplayName("두번째로 포인트를 충전하는 사용자는 기존 Point 데이터에 balance가 추가된다")
     @Test
-    void throwWhenAmountIsZero() {
-        //given
+    void existingUserPointChargeUpdatesBalance() {
+        // given
         long userId = 1L;
-        Point point = new Point();
+        long initialBalance = 1000L;
+        long additionalAmount = 500L;
 
-        //then
-        assertThatThrownBy(() -> point.use(0L))
-            .isInstanceOf(BusinessIllegalArgumentException.class)
-            .hasMessageContaining(INVALID_USE_AMOUNT.getMessage());
+        // Mocking an existing Point object
+        Point existingPoint = Point.create(userId);
+        existingPoint.charge(initialBalance);
+
+        // Mocking PointRepository to return the existing Point
+        when(pointRepository.findByUserId(userId)).thenReturn(Optional.of(existingPoint)); //0원
+
+        // Mocking the save method to return the updated Point
+        /*.thenAnswer()는 호출된 메서드의 인자를 직접 다룰 수 있게 해줌.
+        invocation.getArgument(0)는 호출된 메서드의 첫 번째 인자를 가져오는데, 여기서는 Point 객체를 가져옴.
+         */
+        when(pointRepository.save(any(Point.class))).thenAnswer(invocation -> invocation.getArgument(0)); //1000원
+
+        // when
+        long updatedBalance = pointService.charge(userId, additionalAmount); //1500원
+
+        // then
+        verify(pointRepository).findByUserId(userId);
+        verify(pointRepository).save(existingPoint);
+
+        // Assert the balance is updated correctly
+        assertEquals(initialBalance + additionalAmount, updatedBalance);
+        assertEquals(initialBalance + additionalAmount, existingPoint.getBalance());
     }
 
 }
