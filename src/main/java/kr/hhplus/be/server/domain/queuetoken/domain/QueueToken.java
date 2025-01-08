@@ -42,6 +42,7 @@ public class QueueToken extends BaseEntity {
 
     private LocalDateTime runningExpiredAt;
 
+    @Column(columnDefinition = "BIGINT DEFAULT 0")
     private Long waitOffset;
 
     public static QueueToken createWaitToken(User user, Long waitOffset) {
