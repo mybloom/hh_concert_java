@@ -19,7 +19,12 @@ public enum IllegalArgumentErrorCode implements ErrorCode {
     QUEUE_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당 대기열 토큰을 찾을 수 없습니다."),
 
     //CONCERT
-    INVALID_CONCERT_ID(HttpStatus.BAD_REQUEST, "콘서트 ID가 잘못되었습니다.");
+    INVALID_CONCERT_ID(HttpStatus.BAD_REQUEST, "콘서트 ID를 찾을 수 없습니다."),
+
+    //SEAT
+    INVALID_SEAT_ID(HttpStatus.BAD_REQUEST, "좌석 ID를 찾을 수 없습니다."),
+    SEAT_ALREADY_RESERVED(HttpStatus.BAD_REQUEST, "이미 예약된 좌석입니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;
