@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
+import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.queuetoken.domain.QueueToken;
 import kr.hhplus.be.server.domain.queuetoken.domain.QueueTokenRepository;
@@ -35,12 +36,42 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     }
 
     @Override
-    public QueueToken findQueueTokenWithMaxId() {
+    public Optional<QueueToken> findQueueTokenWithMaxId() {
         return queueTokenJpaRepository.findQueueTokenWithMaxId();
     }
 
     @Override
     public Optional<QueueToken> findByTokenUuid(String tokenUuid) {
         return queueTokenJpaRepository.findByTokenUuid(tokenUuid);
+    }
+
+    @Override
+    public List<QueueToken> findAllByStatusIn(List<QueueTokenStatus> statusList) {
+        return queueTokenJpaRepository.findAllByStatusIn(statusList);
+    }
+
+    @Override
+    public List<QueueToken> findAllByStatus(QueueTokenStatus status) {
+        return queueTokenJpaRepository.findAllByStatus(status);
+    }
+
+    @Override
+    public void deleteAllById(Iterable<Long> ids) {
+        queueTokenJpaRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public Optional<QueueToken> findTopByStatusOrderByIdDesc(QueueTokenStatus status) {
+        return queueTokenJpaRepository.findTopByStatusOrderByIdDesc(status);
+    }
+
+    @Override
+    public int updateTokenStatusAndOffset(long id, QueueTokenStatus status, long waitOffset) {
+        return queueTokenJpaRepository.updateTokenStatusAndOffset(id, status, waitOffset);
+    }
+
+    @Override
+    public List<QueueToken> findByIdGreaterThanEqual(Long id) {
+        return queueTokenJpaRepository.findByIdGreaterThanEqual(id);
     }
 }

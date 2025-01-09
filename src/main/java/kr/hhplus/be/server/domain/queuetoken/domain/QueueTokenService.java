@@ -21,15 +21,16 @@ public class QueueTokenService {
         queueTokenRepository.findByUser(user).ifPresent(queueTokenRepository::delete);
 
         // 1. 임계치 도달을 확인한다.
-        // todo: 매번 active 토큰수를 확인해야 할까? 캐싱 필요해 보인다.
-        long activeTokenCounts = queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE);
-        boolean hasExceededLimit = isActiveTokenCountExceeded(activeTokenCounts);
+        //todo: 매번 active 토큰수를 확인해야 할까? 캐싱 필요해 보인다.
+        boolean hasExceededLimit = isActiveTokenCountExceeded();
 
         // 2. 토큰을 상태에 맞게 생성한다.
         QueueToken queueToken;
         if (hasExceededLimit) {
             //wait offset 구하기
-            QueueToken queueTokenWithMaxId = queueTokenRepository.findQueueTokenWithMaxId();
+            QueueToken queueTokenWithMaxId =
+                queueTokenRepository.findQueueTokenWithMaxId()
+                    .orElseThrow(() -> new BusinessIllegalArgumentException(QUEUE_TOKEN_NOT_FOUND)); //todo: 에러 발생하면 이상한 부분인 것.
             long waitOffset = queueTokenWithMaxId.getWaitOffset() + 1;
 
             queueToken = QueueToken.createWaitToken(user, waitOffset);
@@ -49,7 +50,9 @@ public class QueueTokenService {
         }
     }
 
-    public boolean isActiveTokenCountExceeded(long runningTokenCounts) {
+    // 임계치 도달을 확인
+    public boolean isActiveTokenCountExceeded() {
+        long runningTokenCounts = queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE);
         int threshold = queueTokenProperties.getThreshold();
 
         if (runningTokenCounts >= threshold) {
