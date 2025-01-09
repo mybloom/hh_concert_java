@@ -23,7 +23,21 @@ public enum IllegalArgumentErrorCode implements ErrorCode {
 
     //SEAT
     INVALID_SEAT_ID(HttpStatus.BAD_REQUEST, "좌석 ID를 찾을 수 없습니다."),
-    SEAT_ALREADY_RESERVED(HttpStatus.BAD_REQUEST, "이미 예약된 좌석입니다.");
+    SEAT_ALREADY_RESERVED(HttpStatus.BAD_REQUEST, "이미 예약된 좌석입니다."),
+
+    //RESERVATION
+    INVALID_RESERVATION_ID(HttpStatus.BAD_REQUEST, "예약 ID를 찾을 수 없습니다."),
+    ALREADY_PAID_RESERVATION(HttpStatus.BAD_REQUEST, "이미 결제된 예약 정보입니다."),
+
+    //PAYMENT
+    INVALID_PAYMENT_ID(HttpStatus.BAD_REQUEST, "결제 ID를 찾을 수 없습니다."),
+
+    //예약시간 만료에러
+    INVALID_RESERVATION_TIMEOUT(HttpStatus.BAD_REQUEST, "예약 시간이 만료되었습니다.");
+
+
+
+
 
 
     private final HttpStatus httpStatus;
