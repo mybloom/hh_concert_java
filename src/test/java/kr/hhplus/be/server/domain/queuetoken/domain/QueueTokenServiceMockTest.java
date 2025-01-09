@@ -67,7 +67,7 @@ class QueueTokenServiceMockTest {
         when(queueTokenProperties.getThreshold()).thenReturn(10);
 
         QueueToken queueTokenWithMaxId = QueueToken.createWaitToken(user, 1L);
-        when(queueTokenRepository.findQueueTokenWithMaxId()).thenReturn(queueTokenWithMaxId);
+        when(queueTokenRepository.findQueueTokenWithMaxId()).thenReturn(Optional.of(queueTokenWithMaxId));
 
         QueueToken queueToken = QueueToken.createWaitToken(user, 2L);
         when(queueTokenRepository.save(any())).thenReturn(queueToken);
