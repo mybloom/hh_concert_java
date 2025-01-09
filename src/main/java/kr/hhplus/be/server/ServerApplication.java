@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	"kr.hhplus.be.server.domain.queuetoken.infrastructure",
 	"kr.hhplus.be.server.domain.user.infrastructure",
 	"kr.hhplus.be.server.domain.concert.infrastructure",
-	"kr.hhplus.be.server.domain.reservation.infrastructure"
+	"kr.hhplus.be.server.domain.reservation.infrastructure",
+	"kr.hhplus.be.server.domain.payment.infrastructure"
 })
 
 public class ServerApplication {
