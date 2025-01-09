@@ -60,6 +60,8 @@ INSERT INTO users (name) VALUES
 ('User59'),
 ('User60');
 
+INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at) VALUES
+('550e8400-e29b-41d4-a716-446655440001', 1, 'ACTIVE', '2025-01-08 11:30:00');
 
 INSERT INTO Schedule (concert_id, schedule_date) VALUES (1, '2024-06-15');
 INSERT INTO Schedule (concert_id, schedule_date) VALUES (2, '2024-07-10');
