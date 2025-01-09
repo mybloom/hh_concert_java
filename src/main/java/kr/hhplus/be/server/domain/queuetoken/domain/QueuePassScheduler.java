@@ -22,10 +22,8 @@ public class QueuePassScheduler {
 
     private final QueueOffsetRepository queueOffsetRepository;
 
-//    @Scheduled(fixedRate = 10000) //10초마다 실행(밀리초 단위)
-
     @Transactional
-    @Scheduled(fixedRate = 1000000) //10초마다 실행(밀리초 단위)
+    @Scheduled(fixedRate = 1000000) //10초마다 실행(밀리초 단위) (fixedRate = 10000) //10초
     public void passQueue() {
         log.info("QueuePassScheduler passQueue start!");
         //서버 임계치 도달 여부 확인하여 분리해서 처리
