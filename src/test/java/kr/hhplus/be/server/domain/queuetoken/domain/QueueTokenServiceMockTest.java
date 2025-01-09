@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.queuetoken.domain.dto.QueueTokenResponse;
 import kr.hhplus.be.server.domain.user.domain.User;
@@ -41,7 +42,7 @@ class QueueTokenServiceMockTest {
         // Given
         when(queueTokenRepository.findByUser(user)).thenReturn(Optional.empty());
 
-        when(queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE)).thenReturn(0L);
+        when(queueTokenRepository.countByStatusIn(List.of(QueueTokenStatus.ACTIVE, QueueTokenStatus.INVALID))).thenReturn(0L);
         when(queueTokenProperties.getThreshold()).thenReturn(10);
 
         QueueToken activeQueueToken = QueueToken.createActiveToken(user);
@@ -63,7 +64,7 @@ class QueueTokenServiceMockTest {
         // Given
         when(queueTokenRepository.findByUser(user)).thenReturn(Optional.empty());
 
-        when(queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE)).thenReturn(10L);
+        when(queueTokenRepository.countByStatusIn(List.of(QueueTokenStatus.ACTIVE, QueueTokenStatus.INVALID))).thenReturn(10L);
         when(queueTokenProperties.getThreshold()).thenReturn(10);
 
         QueueToken queueTokenWithMaxId = QueueToken.createWaitToken(user, 1L);
@@ -89,7 +90,7 @@ class QueueTokenServiceMockTest {
         QueueToken existingToken = QueueToken.createActiveToken(user);
         when(queueTokenRepository.findByUser(user)).thenReturn(Optional.of(existingToken));
 
-        when(queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE)).thenReturn(0L);
+        when(queueTokenRepository.countByStatusIn(List.of(QueueTokenStatus.ACTIVE, QueueTokenStatus.INVALID))).thenReturn(0L);
         when(queueTokenProperties.getThreshold()).thenReturn(10);
 
         QueueToken newToken = QueueToken.createActiveToken(user);

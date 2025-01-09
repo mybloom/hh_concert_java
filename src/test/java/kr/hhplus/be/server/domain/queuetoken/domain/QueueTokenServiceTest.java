@@ -9,21 +9,18 @@ import kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
 @Sql(scripts = "classpath:data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class QueueTokenServiceTest {
 
     @Autowired
     private QueueTokenService queueTokenService;
 
-    @Autowired
-    private QueueTokenRepository queueTokenRepository;
-
-    @Autowired
-    private QueueTokenProperties queueTokenProperties;
 
     @DisplayName("존재하지 않는 token uuid이면, exception 반환한다")
     @Test
@@ -41,7 +38,7 @@ class QueueTokenServiceTest {
     @Test
     void testIsTokenInvalid() {
         //given
-        String tokenUuid = "550e8400-e29b-41d4-a716-446655440010";
+        String tokenUuid = "550e8400-e29b-41d4-a716-446655440011";
 
         //when
         boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
