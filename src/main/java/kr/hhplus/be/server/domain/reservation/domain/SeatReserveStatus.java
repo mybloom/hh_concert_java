@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum SeatReserveStatus {
 
     AVAILABLE("AVAILABLE", "예약 가능"),
-    RESERVED("RESERVED", "예약 완료");
+    OCCUPIED("OCCUPIED", "좌석 점유");
 
     private final String status;
     private final String description;

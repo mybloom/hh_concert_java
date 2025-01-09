@@ -1,7 +1,5 @@
 package kr.hhplus.be.server.domain.reservation.domain;
 
-import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.SEAT_ALREADY_RESERVED;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import kr.hhplus.be.server.common.config.database.BaseEntity;
-import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,24 +18,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Seat extends BaseEntity {
+public class Reservation extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long scheduleId;
+    private long seatId;
 
-    private long seatNo;
-
-    private long price;
+    private long userId;
 
     @Enumerated(EnumType.STRING)
-    private SeatReserveStatus status;
+    private ReservationStatus status;
 
-    public void occupied() {
-        if (status == SeatReserveStatus.OCCUPIED) {
-            throw new BusinessIllegalArgumentException(SEAT_ALREADY_RESERVED);
-        }
-        status = SeatReserveStatus.OCCUPIED;
+    public static Reservation createReservation(long seatId, long userId) {
+        return Reservation.builder()
+            .seatId(seatId)
+            .userId(userId)
+            .status(ReservationStatus.RESERVED)
+            .build();
     }
+
+    //todo: createAt이 5분 지난 것은 softDelete , Seat.status = AVAILABLE로 변경. (스케쥴러)
+    public static Reservation createTempReservation(long seatId, long userId) {
+        return Reservation.builder()
+            .seatId(seatId)
+            .userId(userId)
+            .status(ReservationStatus.TEMP)
+            .build();
+    }
+
 }
