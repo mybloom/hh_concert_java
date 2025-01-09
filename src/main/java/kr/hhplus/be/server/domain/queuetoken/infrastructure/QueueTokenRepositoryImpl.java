@@ -21,6 +21,11 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     }
 
     @Override
+    public long countByStatusIn(List<QueueTokenStatus> statusList) {
+        return queueTokenJpaRepository.countByStatusIn(statusList);
+    }
+
+    @Override
     public QueueToken save(QueueToken token) {
         return queueTokenJpaRepository.save(token);
     }

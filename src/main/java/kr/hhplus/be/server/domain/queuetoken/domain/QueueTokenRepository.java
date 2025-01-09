@@ -10,6 +10,8 @@ public interface QueueTokenRepository {
 
     long countByStatus(QueueTokenStatus status);
 
+    long countByStatusIn(List<QueueTokenStatus> statusList);
+
     QueueToken save(QueueToken token);
 
     Optional<QueueToken> findByUser(User user);
@@ -31,4 +33,6 @@ public interface QueueTokenRepository {
     int updateTokenStatusAndOffset(long id, QueueTokenStatus status, long waitOffset);
 
     List<QueueToken> findByIdGreaterThanEqual(Long id);
+
+
 }

@@ -14,6 +14,8 @@ public interface QueueTokenJpaRepository extends JpaRepository<QueueToken, Long>
 
     long countByStatus(QueueTokenStatus status);
 
+    long countByStatusIn(List<QueueTokenStatus> statusList);
+
     Optional<QueueToken> findByUser(User user);
 
     @Query("SELECT q FROM QueueToken q WHERE q.id = (SELECT MAX(q2.id) FROM QueueToken q2)")
@@ -27,10 +29,12 @@ public interface QueueTokenJpaRepository extends JpaRepository<QueueToken, Long>
     Optional<QueueToken> findTopByStatusOrderByIdDesc(QueueTokenStatus status);
 
     @Modifying
-    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset WHERE q.id = :id AND q.status = 'WAIT'")
+    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset WHERE q.id = :id")
+//    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset WHERE q.id = :id AND q.status = 'WAIT'")
     int updateTokenStatusAndOffset(@Param("id") long id,
         @Param("status") QueueTokenStatus status,
         @Param("waitOffset") long waitOffset);
 
     List<QueueToken> findByIdGreaterThanEqual(Long id);
+
 }

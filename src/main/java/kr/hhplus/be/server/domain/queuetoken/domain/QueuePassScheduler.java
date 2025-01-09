@@ -88,13 +88,9 @@ public class QueuePassScheduler {
         queueOffsetRepository.updateLastActiveOffset(QUEUE_OFFSET_INDEX, lastActiveOffset);
 
         //5. WAIT 상태 토큰 waitOffset 감소: lastActiveOffset 이후의 WAIT 상태 토큰 waitOffset 감소 //데이터 정합성이랑 관련없을 듯 해서 별도의 트랜잭션으로 처리
-        updatedWaitOffset(lastActiveOffset);
-    }
-
-    void updatedWaitOffset(long lastActiveOffset) {
         List<QueueToken> waitTokens = queueTokenRepository.findByIdGreaterThanEqual(lastActiveOffset + 1);
         waitTokens.stream()
-            .map(queueToken -> queueTokenRepository.updateTokenStatusAndOffset(
+            .forEach(queueToken -> queueTokenRepository.updateTokenStatusAndOffset(
                 queueToken.getId(),
                 QueueTokenStatus.WAIT,
                 queueToken.getId() - lastActiveOffset)

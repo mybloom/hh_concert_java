@@ -2,6 +2,7 @@ package kr.hhplus.be.server.domain.queuetoken.domain;
 
 import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.QUEUE_TOKEN_NOT_FOUND;
 
+import java.util.List;
 import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
 import kr.hhplus.be.server.domain.queuetoken.domain.dto.QueueTokenResponse;
 import kr.hhplus.be.server.domain.queuetoken.domain.dto.WaitTokenInfo;
@@ -52,7 +53,7 @@ public class QueueTokenService {
 
     // 임계치 도달을 확인
     public boolean isActiveTokenCountExceeded() {
-        long runningTokenCounts = queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE);
+        long runningTokenCounts = queueTokenRepository.countByStatusIn(List.of(QueueTokenStatus.ACTIVE, QueueTokenStatus.INVALID));
         int threshold = queueTokenProperties.getThreshold();
 
         if (runningTokenCounts >= threshold) {
