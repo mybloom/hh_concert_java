@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.domain.reservation.web.dto;
+package kr.hhplus.be.server.domain.reservation.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
