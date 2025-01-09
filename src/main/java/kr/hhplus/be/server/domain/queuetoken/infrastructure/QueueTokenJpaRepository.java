@@ -16,4 +16,5 @@ public interface QueueTokenJpaRepository extends JpaRepository<QueueToken, Long>
     @Query("SELECT q FROM QueueToken q WHERE q.id = (SELECT MAX(q2.id) FROM QueueToken q2)")
     QueueToken findQueueTokenWithMaxId();
 
+    Optional<QueueToken> findByTokenUuid(String tokenUuid);
 }

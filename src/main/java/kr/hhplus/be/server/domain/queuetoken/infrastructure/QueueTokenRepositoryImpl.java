@@ -38,4 +38,9 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     public QueueToken findQueueTokenWithMaxId() {
         return queueTokenJpaRepository.findQueueTokenWithMaxId();
     }
+
+    @Override
+    public Optional<QueueToken> findByTokenUuid(String tokenUuid) {
+        return queueTokenJpaRepository.findByTokenUuid(tokenUuid);
+    }
 }

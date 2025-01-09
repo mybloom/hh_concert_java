@@ -1,5 +1,8 @@
 package kr.hhplus.be.server.domain.queuetoken.domain;
 
+import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.QUEUE_TOKEN_NOT_FOUND;
+
+import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
 import kr.hhplus.be.server.domain.queuetoken.domain.dto.QueueTokenResponse;
 import kr.hhplus.be.server.domain.queuetoken.domain.dto.WaitTokenInfo;
 import kr.hhplus.be.server.domain.user.domain.User;
@@ -53,6 +56,20 @@ public class QueueTokenService {
             return true;
         }
         return false;
+    }
+
+    public boolean isValidToken(String tokenUuid) {
+        QueueToken queueToken = queueTokenRepository.findByTokenUuid(tokenUuid)
+            .orElseThrow(() -> new BusinessIllegalArgumentException(QUEUE_TOKEN_NOT_FOUND));
+
+        int paymentExpirationMinutes = queueTokenProperties.getPaymentExpirationMinutes();
+
+        boolean expired = queueToken.isExpired(paymentExpirationMinutes);
+
+        if(expired) {
+            return false;
+        }
+        return true;
     }
 
 }

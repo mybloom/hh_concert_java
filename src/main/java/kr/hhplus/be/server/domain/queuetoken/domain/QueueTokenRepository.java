@@ -15,4 +15,6 @@ public interface QueueTokenRepository {
     void delete(QueueToken queueToken);
 
     QueueToken findQueueTokenWithMaxId();
+
+    Optional<QueueToken> findByTokenUuid(String tokenUuid);
 }

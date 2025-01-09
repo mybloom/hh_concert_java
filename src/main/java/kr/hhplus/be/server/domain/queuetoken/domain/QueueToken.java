@@ -68,6 +68,25 @@ public class QueueToken extends BaseEntity {
     }
 
     private static LocalDateTime generateRunningExpiredAt() {
-        return LocalDateTime.now().plusMinutes(5);
+        return LocalDateTime.now().plusMinutes(5); //todo: properties에서 가져오기
     }
+
+    public boolean isExpired(int paymentExpirationMinutes) {
+        //만료 조건 2가지
+        //1. status가 INVALID인 경우
+        if (status.equals(QueueTokenStatus.INVALID)) {
+            return true;
+        }
+
+        //2. expirationProcessingTime이 지났을 경우 : runningExpiredAt + paymentExpirationMinutes
+        LocalDateTime expirationProcessingTime =
+            runningExpiredAt.plusMinutes(paymentExpirationMinutes);
+        boolean isAfter = LocalDateTime.now().isAfter(expirationProcessingTime);
+        if (isAfter) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
