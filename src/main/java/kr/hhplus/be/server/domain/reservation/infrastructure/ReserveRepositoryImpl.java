@@ -21,4 +21,9 @@ public class ReserveRepositoryImpl implements ReserveRepository {
     public Reservation save(Reservation reservation) {
         return reserveJpaRepository.save(reservation);
     }
+
+    @Override
+    public Optional<Reservation> findById(long reservationId) {
+        return reserveJpaRepository.findById(reservationId);
+    }
 }
