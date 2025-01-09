@@ -62,7 +62,7 @@ public class QueueTokenController {
                         }
                     """)))
     })
-    @PostMapping("/api/queue/token")
+    @PostMapping("/api/queue/tokens")
     public ResponseEntity<QueueTokenResponse> createToken(
         @RequestBody TokenRequest request) {
         User user = userService.retrieveUser(request.getUserId());

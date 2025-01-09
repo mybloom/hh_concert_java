@@ -34,7 +34,7 @@ class QueueTokenControllerTest {
         TokenRequest request = new TokenRequest(userId);
 
         //when & then
-        mockMvc.perform(post("/api/queue/token")
+        mockMvc.perform(post("/api/queue/tokens")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isOk())
