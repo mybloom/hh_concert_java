@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -24,6 +23,8 @@ public class QueuePassScheduler {
     private final QueueOffsetRepository queueOffsetRepository;
 
 //    @Scheduled(fixedRate = 10000) //10초마다 실행(밀리초 단위)
+
+    @Transactional
     @Scheduled(fixedRate = 1000000) //10초마다 실행(밀리초 단위)
     public void passQueue() {
         log.info("QueuePassScheduler passQueue start!");
@@ -41,7 +42,6 @@ public class QueuePassScheduler {
         }
     }
 
-    @Transactional
     public void processAfterThreshold() {
         //1. 만료 토큰 제거
         long expirationTokenCount = removeInvalidToken();
@@ -91,7 +91,6 @@ public class QueuePassScheduler {
         updatedWaitOffset(lastActiveOffset);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void updatedWaitOffset(long lastActiveOffset) {
         List<QueueToken> waitTokens = queueTokenRepository.findByIdGreaterThanEqual(lastActiveOffset + 1);
         waitTokens.stream()

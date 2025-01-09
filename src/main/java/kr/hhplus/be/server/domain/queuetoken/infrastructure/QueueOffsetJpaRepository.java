@@ -16,7 +16,6 @@ public interface QueueOffsetJpaRepository extends JpaRepository<QueueOffset, Lon
     Optional<QueueOffset> findByIdWithLock(@Param("id") long id);
 
     @Modifying
-    @Query("UPDATE QueueOffset q SET q.lastActiveOffset = :lastActiveOffset " +
-        "WHERE q.id = :id")
+    @Query("UPDATE QueueOffset q SET q.lastActiveOffset = :lastActiveOffset WHERE q.id = :id")
     int updateLastActiveOffset(@Param("id") long id, @Param("lastActiveOffset") long lastActiveOffset);
 }
