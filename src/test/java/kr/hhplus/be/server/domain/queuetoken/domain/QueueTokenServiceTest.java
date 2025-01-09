@@ -1,106 +1,79 @@
 package kr.hhplus.be.server.domain.queuetoken.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-import kr.hhplus.be.server.domain.queuetoken.domain.dto.QueueTokenResponse;
-import kr.hhplus.be.server.domain.user.domain.User;
-import org.junit.jupiter.api.BeforeEach;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
+import kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Sql(scripts = "classpath:data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 class QueueTokenServiceTest {
 
-    @InjectMocks
+    @Autowired
     private QueueTokenService queueTokenService;
 
-    @Mock
+    @Autowired
     private QueueTokenRepository queueTokenRepository;
 
-    @Mock
+    @Autowired
     private QueueTokenProperties queueTokenProperties;
 
-    private User user;
+    @DisplayName("존재하지 않는 token uuid이면, exception 반환한다")
+    @Test
+    void testExceptionNotExist() {
+        //given
+        String tokenUuid = "notExistUUID";
 
-    @BeforeEach
-    void setUp() {
-        user = new User(1L, "User1");
+        //when
+        assertThatThrownBy(() -> queueTokenService.isValidToken(tokenUuid))
+            .isInstanceOf(BusinessIllegalArgumentException.class)
+            .hasMessage(IllegalArgumentErrorCode.QUEUE_TOKEN_NOT_FOUND.getMessage());
     }
 
-    @DisplayName("서버의 처리 임계치를 넘지 않았을 때 ACTIVE 상태의 토큰이 생성됨을 확인한다")
+    @DisplayName("토큰상태가 INVALID인 경우, false 반환한다")
     @Test
-    void testCreateActiveToken() {
-        // Given
-        when(queueTokenRepository.findByUser(user)).thenReturn(Optional.empty());
+    void testIsTokenInvalid() {
+        //given
+        String tokenUuid = "550e8400-e29b-41d4-a716-446655440010";
 
-        when(queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE)).thenReturn(0L);
-        when(queueTokenProperties.getThreshold()).thenReturn(10);
+        //when
+        boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
 
-        QueueToken activeQueueToken = QueueToken.createActiveToken(user);
-        when(queueTokenRepository.save(any())).thenReturn(activeQueueToken);
-
-        // When
-        QueueTokenResponse response = queueTokenService.create(user);
-
-        // Then
-        verify(queueTokenRepository).save(any());
-        //extracting: 객체의 특정 프로퍼티를 추출하고 해당 값을 검증
-        assertThat(response).extracting(QueueTokenResponse::getTokenUuid).isNotNull();
-        assertThat(response).extracting(QueueTokenResponse::getStatus).isEqualTo(QueueTokenStatus.ACTIVE);
-    }
-    @DisplayName("서버 임계치 초과 시 WAIT 상태 토큰 생성과 waitOffset 증가를 확인한다")
-    @Test
-    void testCreateWaitToken() {
-        // Given
-        when(queueTokenRepository.findByUser(user)).thenReturn(Optional.empty());
-
-        when(queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE)).thenReturn(10L);
-        when(queueTokenProperties.getThreshold()).thenReturn(10);
-
-        QueueToken queueTokenWithMaxId = QueueToken.createWaitToken(user, 1L);
-        when(queueTokenRepository.findQueueTokenWithMaxId()).thenReturn(queueTokenWithMaxId);
-
-        QueueToken queueToken = QueueToken.createWaitToken(user, 2L);
-        when(queueTokenRepository.save(any())).thenReturn(queueToken);
-
-        // When
-        QueueTokenResponse response = queueTokenService.create(user);
-
-        // Then
-        verify(queueTokenRepository).save(any());
-        assertThat(response.getTokenUuid()).isNotNull();
-        assertThat(response.getStatus()).isEqualTo(QueueTokenStatus.WAIT);
-        assertThat(response.getWaitTokenInfo().getWaitOffset()).isEqualTo(2);
+        //then
+        assertThat(isValidToken).isFalse();
     }
 
-    @DisplayName("기존 토큰이 있으면 제거되고 새로 생성되는지 확인한다")
+    @DisplayName("토큰상태가 ACTIVE이면서 만료처리시간이 지난 경우, false 반환한다")
     @Test
-    void removeAndCreateNewToken() {
-        // Given
-        QueueToken existingToken = QueueToken.createActiveToken(user);
-        when(queueTokenRepository.findByUser(user)).thenReturn(Optional.of(existingToken));
+    void testExpirationTimePassed() {
+        //given
+        String tokenUuid = "550e8400-e29b-41d4-a716-446655440009";
 
-        when(queueTokenRepository.countByStatus(QueueTokenStatus.ACTIVE)).thenReturn(0L);
-        when(queueTokenProperties.getThreshold()).thenReturn(10);
+        //when
+        boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
 
-        QueueToken newToken = QueueToken.createActiveToken(user);
-        when(queueTokenRepository.save(any())).thenReturn(newToken);
+        //then
+        assertThat(isValidToken).isFalse();
+    }
 
-        // When
-        QueueTokenResponse response = queueTokenService.create(user);
+    @DisplayName("토큰상태가 ACTIVE이면서 만료처리시간이 지나지 않은 경우, true 반환한다")
+    @Test
+    void testIsActiveButNotExpired() {
+        //given
+        String tokenUuid = "550e8400-e29b-41d4-a716-446655440008";
 
-        // Then
-        verify(queueTokenRepository).delete(existingToken);
-        verify(queueTokenRepository).save(any());
-        assertThat(response).extracting(QueueTokenResponse::getTokenUuid).isNotNull();
+        //when
+        boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
+
+        //then
+        assertThat(isValidToken).isTrue();
     }
 
 }

@@ -9,7 +9,10 @@ INSERT INTO users (name) VALUES
 ('User8'),
 ('User9'),
 ('User10'),
-('User11');
+('User11'),
+('User12'),
+('User13'),
+('User14');
 
 
 INSERT INTO point (user_id, balance) VALUES
@@ -43,9 +46,14 @@ INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at)
 VALUES ('550e8400-e29b-41d4-a716-446655440007', 8, 'ACTIVE', '2025-01-08 11:10:00');
 
 INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at)
-VALUES ('550e8400-e29b-41d4-a716-446655440008', 9, 'ACTIVE', '2025-01-08 11:20:00');
+VALUES ('550e8400-e29b-41d4-a716-446655440008', 9, 'ACTIVE', '2025-01-31 11:20:00');
 
 INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at)
 VALUES ('550e8400-e29b-41d4-a716-446655440009', 10, 'ACTIVE', '2025-01-08 11:30:00');
 
+INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at)
+VALUES ('550e8400-e29b-41d4-a716-446655440010', 11, 'INVALID', '2025-01-08 11:33:00');
+
+INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at, wait_offset)
+VALUES ('550e8400-e29b-41d4-a716-446655440011', 12, 'WAIT', '2025-01-08 11:35:00', 1);
 --
