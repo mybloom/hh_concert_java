@@ -8,13 +8,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
     @Autowired
     private QueueTokenInterceptor queueTokenInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(queueTokenInterceptor)
-            .addPathPatterns("/**")  // 모든 경로에 대해 인터셉터 적용
-            .excludePathPatterns("/api/queue/tokens"); // 제외 경로
+            .addPathPatterns("/api/**")  // 모든 경로에 대해 인터셉터 적용
+            .excludePathPatterns( //제외경로
+                "/api/queue/tokens",
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/v3/**",
+                "/swagger/**",
+                "/error"
+            );
     }
 }

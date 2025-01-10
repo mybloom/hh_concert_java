@@ -1,6 +1,7 @@
 package kr.hhplus.be.server.domain.point.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.hhplus.be.server.domain.point.domain.PointService;
 import kr.hhplus.be.server.domain.point.web.dto.PointChargeRequest;
 import kr.hhplus.be.server.domain.point.web.dto.PointResponse;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "포인트", description = "포인트 API")
 @RequiredArgsConstructor
 @RestController
 public class PointController {

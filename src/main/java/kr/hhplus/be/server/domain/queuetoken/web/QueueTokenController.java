@@ -1,12 +1,7 @@
 package kr.hhplus.be.server.domain.queuetoken.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import kr.hhplus.be.server.common.apiresponse.BusinessApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.hhplus.be.server.domain.queuetoken.domain.QueueTokenService;
 import kr.hhplus.be.server.domain.queuetoken.domain.dto.QueueTokenResponse;
 import kr.hhplus.be.server.domain.queuetoken.web.dto.TokenRequest;
@@ -19,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "대기열 토큰", description = "대기열 토큰 API")
 @RequiredArgsConstructor
 @RestController
 public class QueueTokenController {
@@ -30,7 +26,7 @@ public class QueueTokenController {
         summary = "대기열 토큰 발급",
         description = "대기열에 진입하기 위해 대기열 토큰을 발급받는다."
     )
-    @ApiResponses(value = {
+    /*@ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "성공적인 토큰 생성",
             content = @Content(schema = @Schema(implementation = BusinessApiResponse.class),
                 examples = @ExampleObject(value = """
@@ -61,7 +57,7 @@ public class QueueTokenController {
                             "data": null
                         }
                     """)))
-    })
+    })*/
     @PostMapping("/api/queue/tokens")
     public ResponseEntity<QueueTokenResponse> createToken(
         @RequestBody TokenRequest request) {
