@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @Sql(scripts = {"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Transactional
+@Transactional
 class PointControllerTest {
 
     @Autowired
@@ -37,7 +37,7 @@ class PointControllerTest {
     @Test
     void testChargePoint() throws Exception {
         // Given
-        long userId = 1L;
+        long userId = 10L;
         long chargeAmount = 1000L;
         long expectedBalance = 1000L;
 

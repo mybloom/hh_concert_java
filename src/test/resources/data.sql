@@ -64,8 +64,8 @@ INSERT INTO users (name) VALUES
 INSERT INTO point (user_id, balance) VALUES
 (1, 0),
 (2, 0),
-(3, 0);
-
+(3, 0),
+(10, 0);
 
 INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at) VALUES
 ('550e8400-e29b-41d4-a716-446655440001', 1, 'ACTIVE', '2025-01-28 11:30:00'),
@@ -77,7 +77,7 @@ INSERT INTO queue_token (token_uuid, user_id, status, running_expired_at) VALUES
 ('550e8400-e29b-41d4-a716-446655440007', 7, 'INVALID', '2025-01-08 11:30:00'),
 ('550e8400-e29b-41d4-a716-446655440008', 8, 'ACTIVE', '2025-01-10 10:00:00'),
 ('550e8400-e29b-41d4-a716-446655440009', 9, 'INVALID', '2025-01-08 11:30:00'),
-('550e8400-e29b-41d4-a716-44665544000A', 10, 'ACTIVE', '2025-01-10 10:00:00'),
+('550e8400-e29b-41d4-a716-44665544000A', 10, 'ACTIVE', '2025-01-30 10:00:00'),
 
 ('550e8400-e29b-41d4-a716-44665544000B', 11, 'INVALID', '2025-01-08 11:30:00'),
 ('550e8400-e29b-41d4-a716-44665544000C', 12, 'ACTIVE', '2025-01-10 10:00:00'),
@@ -126,9 +126,10 @@ INSERT INTO queue_token (token_uuid, user_id, status, wait_offset) VALUES
 INSERT INTO queue_offset(last_active_offset) VALUES(30);
 
 
-INSERT INTO Schedule (concert_id, schedule_date) VALUES (1, '2024-06-15');
-INSERT INTO Schedule (concert_id, schedule_date) VALUES (2, '2024-07-10');
-INSERT INTO Schedule (concert_id, schedule_date) VALUES (3, '2024-08-20');
+INSERT INTO Concert (name) VALUES ('Rock Festival');
+INSERT INTO Concert (name) VALUES ('Jazz Night');
+INSERT INTO Concert (name) VALUES ('Classical Evening');
+
 
 INSERT INTO Schedule (concert_id, schedule_date) VALUES
 (1, '2024-01-05'),
