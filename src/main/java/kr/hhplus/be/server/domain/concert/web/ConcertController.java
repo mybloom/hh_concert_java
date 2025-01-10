@@ -1,6 +1,10 @@
 package kr.hhplus.be.server.domain.concert.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.hhplus.be.server.domain.concert.domain.ConcertService;
 import kr.hhplus.be.server.domain.concert.domain.PageProperties;
@@ -20,6 +24,16 @@ public class ConcertController {
     private final PageProperties pageProperties;
 
     @Operation(summary = "콘서트 예약 가능 날짜", description = "콘서트 예약 가능 날짜 조회 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "콘서트 스케줄 조회 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConcertResponse.class))),
+        @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "404", description = "콘서트를 찾을 수 없음",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "500", description = "서버 내부 오류",
+            content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/api/concerts/{concertId}/schedules")
     public ConcertResponse retrieveConcertSchedules(
         @PathVariable(name = "concertId") final long concertId,
