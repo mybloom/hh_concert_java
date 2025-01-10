@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Response Concert", description = "Response Concert API")
+@Tag(name = "콘서트", description = "콘서트 API")
 @RequiredArgsConstructor
 @RestController
 public class ConcertController {
