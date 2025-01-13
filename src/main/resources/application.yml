@@ -16,10 +16,21 @@ spring:
     generate-ddl: false
     show-sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
+      format_sql: true
+      type:
+        descriptor:
+          sql: trace
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
+server:
+  queue:
+    threshold: 30 #큐에 들어가는 최대 갯수
+    init-expiration-minutes: 1      #active 상태일 때 초기 부여 만료 시간(분)
+    payment-expiration-minutes: 1   #좌석 예약하고 추가 부여하는 만료 시간(분)
+page:
+  size: 10
 
 ---
 spring.config.activate.on-profile: local, test

@@ -1,41 +1,62 @@
 package kr.hhplus.be.server.domain.point.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import kr.hhplus.be.server.apiresponse.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import kr.hhplus.be.server.domain.point.domain.PointService;
 import kr.hhplus.be.server.domain.point.web.dto.PointChargeRequest;
 import kr.hhplus.be.server.domain.point.web.dto.PointResponse;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "포인트", description = "포인트 API")
+@RequiredArgsConstructor
 @RestController
 public class PointController {
 
-    @Operation(summary = "포인트 충전", description = "포인트 충전 API")
-    @PostMapping("/api/points")
-    public ResponseEntity<ApiResponse<PointResponse>> chargePoint(@RequestBody PointChargeRequest request) {
-        if (request.getAmount() == 0) {
-            return ResponseEntity
-                .badRequest()
-                .body(ApiResponse.failure("Invalid amount is 0"));
-        }
+    private final PointService pointService;
 
-        return ResponseEntity.ok().body(ApiResponse.success(new PointResponse(1000)));
+    @Operation(summary = "포인트 충전", description = "포인트 충전 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "포인트가 성공적으로 충전됨",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PointResponse.class))),
+        @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "401", description = "토큰 인증 실패",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "500", description = "서버 내부 오류",
+            content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping("/api/points")
+    public PointResponse chargePoint(@RequestBody PointChargeRequest request) {
+        long balance = pointService.charge(request.getUserId(), request.getAmount());
+        return PointResponse.of(balance);
     }
 
     @Operation(summary = "포인트 조회", description = "포인트 조회 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "포인트 잔액 조회 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PointResponse.class))),
+        @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "401", description = "인증 토큰 없음",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음",
+            content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "500", description = "서버 내부 오류",
+            content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/api/points")
-    public ResponseEntity<ApiResponse<PointResponse>> checkPoint(@RequestParam(required = true) long userId) {
-        if (userId == 0) {
-            return ResponseEntity
-                .badRequest()
-                .body(ApiResponse.failure("Invalid userId"));
-        }
-
-        return ResponseEntity.ok().body(ApiResponse.success(new PointResponse(1000)));
+    public PointResponse checkPoint(@RequestParam(name = "userId", required = true) long userId) {
+        long balance = pointService.getBalance(userId);
+        return PointResponse.of(balance);
     }
 
 }

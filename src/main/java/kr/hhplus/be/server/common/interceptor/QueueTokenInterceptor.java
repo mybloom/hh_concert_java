@@ -1,0 +1,47 @@
+package kr.hhplus.be.server.common.interceptor;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import kr.hhplus.be.server.common.exception.ErrorResponse;
+import kr.hhplus.be.server.domain.queuetoken.domain.QueueTokenService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+@RequiredArgsConstructor
+@Component
+public class QueueTokenInterceptor implements HandlerInterceptor {
+
+    private final ObjectMapper objectMapper;
+    private final QueueTokenService queueTokenService;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+        Object handler) throws Exception {
+
+        String queueTokenUuid = request.getHeader("x-queue-token");
+
+        if (queueTokenUuid == null || queueTokenUuid.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json; charset=UTF-8");
+
+            ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED,
+                "대기열 토큰을 찾을 수 없습니다. 인증 후 다시 시도해 주세요."
+            );
+            response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+            return false;
+        }
+
+        //queueToken 검증 로직
+        boolean isValidToken = queueTokenService.isValidToken(queueTokenUuid);
+        if (isValidToken) {
+            return true;
+        }
+
+        return false;
+    }
+
+}
