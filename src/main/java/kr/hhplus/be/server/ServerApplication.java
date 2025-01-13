@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {
-	"kr.hhplus.be.server.domain.point.infrastructure",
-	"kr.hhplus.be.server.domain.queuetoken.infrastructure",
-	"kr.hhplus.be.server.domain.user.infrastructure",
-	"kr.hhplus.be.server.domain.concert.infrastructure",
-	"kr.hhplus.be.server.domain.reservation.infrastructure",
-	"kr.hhplus.be.server.domain.payment.infrastructure"
+	"kr.hhplus.be.server.domainold.point.infrastructure",
+	"kr.hhplus.be.server.domainold.queuetoken.infrastructure",
+	"kr.hhplus.be.server.domainold.user.infrastructure",
+	"kr.hhplus.be.server.domainold.concert.infrastructure",
+	"kr.hhplus.be.server.domainold.reservation.infrastructure",
+	"kr.hhplus.be.server.domainold.payment.infrastructure"
 })
 
 public class ServerApplication {
