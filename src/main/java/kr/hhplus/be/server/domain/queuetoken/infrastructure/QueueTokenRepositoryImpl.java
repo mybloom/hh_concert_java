@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.queuetoken.domain.QueueToken;
@@ -71,8 +72,13 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     }
 
     @Override
-    public int updateTokenStatusAndOffset(long id, QueueTokenStatus status, long waitOffset) {
-        return queueTokenJpaRepository.updateTokenStatusAndOffset(id, status, waitOffset);
+    public int updateTokenStatusAndOffset(long id, QueueTokenStatus status, long waitOffset, LocalDateTime runningExpiredAt) {
+        return queueTokenJpaRepository.updateTokenStatusAndRunningExpiredAt(id, status, waitOffset, runningExpiredAt);
+    }
+
+    @Override
+    public int updateTokenStatusAndOffset(long id, QueueTokenStatus wait, long waitOffset) {
+        return queueTokenJpaRepository.updateTokenStatusAndOffset(id, wait, waitOffset);
     }
 
     @Override

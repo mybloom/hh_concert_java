@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.queuetoken.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -67,7 +68,10 @@ public class QueuePassScheduler {
         //(beforeLastActiveOffset +1 ~ lastActiveOffset) 까지의 WAIT 상태 토큰을 ACTIVE 로 변경. waitOffset = 0 처리
         long activeRangeStart = beforeLastActiveOffset + 1;
         for (long id = activeRangeStart; id <= lastActiveOffset; id++) {
-            queueTokenRepository.updateTokenStatusAndOffset(id, QueueTokenStatus.ACTIVE, 0L);
+            int initExpirationMinutes = queueTokenProperties.getInitExpirationMinutes();
+            queueTokenRepository.updateTokenStatusAndOffset(
+                id, QueueTokenStatus.ACTIVE, 0L, LocalDateTime.now().plusMinutes(initExpirationMinutes)
+            );
         }
         log.info("Updated tokens from ID {} to {}", activeRangeStart, lastActiveOffset);
 

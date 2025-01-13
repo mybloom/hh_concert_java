@@ -1,6 +1,7 @@
 package kr.hhplus.be.server.domain.queuetoken.domain;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.user.domain.User;
@@ -30,9 +31,10 @@ public interface QueueTokenRepository {
 
     Optional<QueueToken> findTopByStatusOrderByIdDesc(QueueTokenStatus status);
 
-    int updateTokenStatusAndOffset(long id, QueueTokenStatus status, long waitOffset);
+    int updateTokenStatusAndOffset(long id, QueueTokenStatus status, long waitOffset, LocalDateTime runningExpiredAt);
 
     List<QueueToken> findByIdGreaterThanEqual(Long id);
 
 
+    int updateTokenStatusAndOffset(long id, QueueTokenStatus wait, long waitOffset);
 }

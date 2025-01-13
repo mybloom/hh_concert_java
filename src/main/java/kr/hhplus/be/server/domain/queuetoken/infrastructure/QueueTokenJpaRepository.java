@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.queuetoken.domain.QueueToken;
@@ -29,11 +30,18 @@ public interface QueueTokenJpaRepository extends JpaRepository<QueueToken, Long>
     Optional<QueueToken> findTopByStatusOrderByIdDesc(QueueTokenStatus status);
 
     @Modifying
-    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset WHERE q.id = :id")
-//    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset WHERE q.id = :id AND q.status = 'WAIT'")
+    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset, q.runningExpiredAt = :runningExpiredAt WHERE q.id = :id")
+    int updateTokenStatusAndRunningExpiredAt(@Param("id") long id,
+        @Param("status") QueueTokenStatus status,
+        @Param("waitOffset") long waitOffset,
+        @Param("runningExpiredAt") LocalDateTime runningExpiredAt);
+
+    @Modifying
+    @Query("UPDATE QueueToken q SET q.status = :status, q.waitOffset = :waitOffset, q.runningExpiredAt = :runningExpiredAt WHERE q.id = :id")
     int updateTokenStatusAndOffset(@Param("id") long id,
         @Param("status") QueueTokenStatus status,
-        @Param("waitOffset") long waitOffset);
+        @Param("waitOffset") long waitOffset
+        );
 
     List<QueueToken> findByIdGreaterThanEqual(Long id);
 
