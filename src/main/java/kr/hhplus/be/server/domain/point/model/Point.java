@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.domainold.point.domain;
+package kr.hhplus.be.server.domain.point.model;
 
 import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.*;
 
@@ -34,7 +34,7 @@ public class Point extends BaseEntity {
     @Column(unique = true)
     private long userId;
 
-    public static Point create(long userId) {
+    public static Point createInitBalance(long userId) {
         return Point.builder()
             .userId(userId)
             .balance(0)
@@ -42,10 +42,6 @@ public class Point extends BaseEntity {
     }
 
     public long charge(long amount) {
-        if (amount <= 0) {
-            throw new BusinessIllegalArgumentException(INVALID_CHARGE_AMOUNT);
-        }
-
         balance += amount;
         return balance;
     }

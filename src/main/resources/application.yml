@@ -24,6 +24,9 @@ spring:
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
+    messages:
+      basename: errors
+      encoding: UTF-8
 server:
   queue:
     threshold: 30 #큐에 들어가는 최대 갯수
