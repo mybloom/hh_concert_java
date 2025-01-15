@@ -28,10 +28,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 테스트코드
+ * - E2E 테스트 목적으로 작성한 건데 이게 E2E테스트가 맞는걸까?
+ */
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest
-@Import(WebQueueTokenInterceptorConfig.class)
+@Import(WebQueueTokenInterceptorConfig.class) //interceptor 빈 등록. 테스트에서는 token 검증을 위해 필요하므로 등록함.
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PointControllerIntegrationTest {
