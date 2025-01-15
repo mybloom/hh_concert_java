@@ -1,7 +1,6 @@
 package kr.hhplus.be.server.interfaces.point.controller;
 
 
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -25,7 +24,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-
+/**
+ * 테스트코드
+ * - request의 입력 유효성 검증을 위한 단위 테스트 작성
+ */
 @WebMvcTest(
     value = PointController.class,
     // @ComponentScan.Filter : 특정 빈 제외, FilterType.ASSIGNABLE_TYPE : 클래스 타입 기준 필터링, classes : 제외할 클래스
@@ -64,7 +66,8 @@ class PointControllerUnitTest {
                 .build();
         String requestBody = objectMapper.writeValueAsString(request);
 
-        when(pointChargeService.charge(anyLong(), anyLong())).thenReturn(amount);
+        //테코를 짜는건 안전망을 구축한다는 마음으로 접근. anyLong()을 userId, amount로 변경.
+        when(pointChargeService.charge(userId, amount)).thenReturn(amount);
 
         //when
         final ResultActions result = mockMvc.perform(post("/api/points")
