@@ -36,7 +36,7 @@ import org.springframework.test.web.servlet.ResultActions;
         )
     }
 )
-class PointControllerTest {
+class PointControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;

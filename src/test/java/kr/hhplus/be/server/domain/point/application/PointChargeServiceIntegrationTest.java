@@ -4,35 +4,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import kr.hhplus.be.server.domain.point.model.Point;
 import kr.hhplus.be.server.domain.point.repository.PointCommandRepository;
-import kr.hhplus.be.server.domain.point.repository.PointQueryRepository;
-import kr.hhplus.be.server.util.DataCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
-//todo: 서비스 통합테스트
 @ActiveProfiles("test")
 @SpringBootTest
-class PointChargeServiceTest {
+@Transactional
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class PointChargeServiceIntegrationTest {
 
     @Autowired
     private PointChargeService pointService;
 
     @Autowired
-    private PointQueryRepository pointQueryRepository;
-    @Autowired
     private PointCommandRepository pointCommandRepository;
-
-    @Autowired
-    private DataCleaner dataCleaner;
-
-    @BeforeEach
-    void setUp() {
-        dataCleaner.clean();
-    }
 
     @DisplayName("충전한 이력이 있는 사용자가 100원을 충전한다.")
     @Test
