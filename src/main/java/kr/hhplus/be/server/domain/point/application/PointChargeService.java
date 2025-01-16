@@ -26,7 +26,7 @@ public class PointChargeService {
     @Transactional
     public long charge(long userId, long amount) {
         Point point = pointQueryRepository.findByUserIdWithLock(userId)
-            .orElseGet(() -> Point.createInitBalance(userId));
+            .orElseGet(() -> Point.createInitBalance(userId)); //fixme: 이 부분에서 동시성 문제 발생!
         point.charge(amount);
 
         point = pointCommandRepository.save(point); //이미 존재하는 경우 자동 update
