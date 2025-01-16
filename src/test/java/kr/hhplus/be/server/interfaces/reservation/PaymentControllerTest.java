@@ -1,6 +1,5 @@
 package kr.hhplus.be.server.interfaces.reservation;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -9,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.hhplus.be.server.common.DataCleaner;
-import kr.hhplus.be.server.domain.reservation.application.result.PaymentRequest;
+import kr.hhplus.be.server.interfaces.reservation.dto.PaymentRequest;
 import kr.hhplus.be.server.domain.reservation.domain.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

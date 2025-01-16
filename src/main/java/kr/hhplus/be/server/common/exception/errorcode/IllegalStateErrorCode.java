@@ -9,7 +9,11 @@ import org.springframework.http.HttpStatus;
 public enum IllegalStateErrorCode implements ErrorCode {
     //TOKEN
     UNVERIFIED_TOKEN(HttpStatus.UNAUTHORIZED, "유효한 토큰이 아닙니다."),
-    UNVERIFIED_TOKEN_STATUS(HttpStatus.BAD_REQUEST, "토큰 상태를 요청하신 상태로 변경할 수 없습니다.");
+    UNVERIFIED_TOKEN_STATUS(HttpStatus.BAD_REQUEST, "토큰 상태를 요청하신 상태로 변경할 수 없습니다."),
+
+    //RESERVATION
+    UNVERIFIED_RESERVATION(HttpStatus.BAD_REQUEST, "유효한 예약 데이터가 아닙니다."),
+    UNVERIFIED_RESERVATION_STATUS(HttpStatus.BAD_REQUEST, "유효한 예약 상태가 아닙니다.");
 
 
 

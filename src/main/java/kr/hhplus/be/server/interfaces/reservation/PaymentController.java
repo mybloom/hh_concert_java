@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.hhplus.be.server.domain.reservation.application.PaymentService;
-import kr.hhplus.be.server.domain.reservation.application.result.PaymentRequest;
-import kr.hhplus.be.server.domain.reservation.application.result.PaymentResponse;
+import kr.hhplus.be.server.interfaces.reservation.dto.PaymentRequest;
+import kr.hhplus.be.server.interfaces.reservation.dto.PaymentResponse;
+import kr.hhplus.be.server.interfaces.reservation.usecase.PaymentUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PaymentController {
 
-    private final PaymentService paymentService;
+    private final PaymentUseCase paymentUseCase;
 
     @Operation(summary = "결제 요청", description = "결제 요청 API")
     @ApiResponses(value = {
@@ -36,6 +36,7 @@ public class PaymentController {
     })
     @PostMapping("/api/payments")
     public PaymentResponse pay(@RequestBody PaymentRequest request) {
-        return paymentService.pay(request);
+        long reservationId = paymentUseCase.pay(request.getUserId(), request.getReservationId());
+        return new PaymentResponse(reservationId);
     }
 }
