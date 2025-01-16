@@ -2,26 +2,32 @@ package kr.hhplus.be.server.domain.point.application;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import kr.hhplus.be.server.common.IntegrationTest;
 import kr.hhplus.be.server.domain.point.repository.PointCommandRepository;
 import kr.hhplus.be.server.domain.point.repository.PointQueryRepository;
 import kr.hhplus.be.server.domain.user.domain.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
+@Sql(scripts = "classpath:data_point.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 class PointServiceConcurrencyTest extends IntegrationTest {
 
     @Autowired
@@ -32,24 +38,20 @@ class PointServiceConcurrencyTest extends IntegrationTest {
 
     @Autowired
     private PointCommandRepository pointCommandRepository;
-
+    @PersistenceContext
+    private EntityManager entityManager;
     private User user;
-
-    @BeforeEach
-    void setUp() {
-        user = userRepository.save(new User());
-//        pointCommandRepository.save(Point.createInitBalance(user.getId()));
-    }
 
     @DisplayName("한 사용자가 여러 번 충전하는 경우, 충전 금액이 누적되어야 한다.")
     @Test
     void testUserChargesMultipleTimes() throws ExecutionException, InterruptedException {
         //given
-        long userId = user.getId();
+        long userId = 1L;
         long amount = 1000;
-        int chargeCount = 30;
+        int chargeCount = 50;
 
         //비동기 요청 처리 준비
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
         final List<CompletableFuture<Boolean>> tasks = new ArrayList<>(chargeCount);
         final AtomicInteger exceptionCount = new AtomicInteger(0);
 
@@ -58,7 +60,7 @@ class PointServiceConcurrencyTest extends IntegrationTest {
             tasks.add(CompletableFuture.supplyAsync(() -> {
                 pointChargeService.charge(userId, amount);
                 return true;
-            }).exceptionally(e -> {
+            },executorService).exceptionally(e -> {
                 exceptionCount.incrementAndGet();
                 return false;
             }));
@@ -66,6 +68,16 @@ class PointServiceConcurrencyTest extends IntegrationTest {
 
         //then
         CompletableFuture.allOf(tasks.toArray(new CompletableFuture[0])).join();
+        //executor 종료
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
 
         int successCount = 0;
         int failureCount = 0;
