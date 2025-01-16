@@ -1,4 +1,5 @@
-package kr.hhplus.be.server.domainold.queuetoken.web.dto;
+package kr.hhplus.be.server.interfaces.queuetoken.dto;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokenRequest {
+    @NotNull
     private long userId;
 }

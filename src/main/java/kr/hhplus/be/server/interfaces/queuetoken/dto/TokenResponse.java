@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.domainold.queuetoken.web.dto;
+package kr.hhplus.be.server.interfaces.queuetoken.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
