@@ -2,8 +2,10 @@ package kr.hhplus.be.server.domain.point.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import kr.hhplus.be.server.common.DataCleaner;
 import kr.hhplus.be.server.domain.point.model.Point;
 import kr.hhplus.be.server.domain.point.repository.PointCommandRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,13 @@ class PointChargeServiceIntegrationTest {
     @Autowired
     private PointCommandRepository pointCommandRepository;
 
+    @Autowired
+    private DataCleaner dataCleaner;
+
+    @BeforeEach
+    void setUp() {
+        dataCleaner.clean();
+    }
     @DisplayName("충전한 이력이 있는 사용자가 100원을 충전한다.")
     @Test
     void chargeForExistingUser() {

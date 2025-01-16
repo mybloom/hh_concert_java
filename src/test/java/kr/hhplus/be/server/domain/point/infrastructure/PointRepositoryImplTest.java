@@ -1,8 +1,8 @@
-package kr.hhplus.be.server.domainold.point.infrastructure;
+package kr.hhplus.be.server.domain.point.infrastructure;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import kr.hhplus.be.server.domainold.point.domain.Point;
+import kr.hhplus.be.server.domain.point.model.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ class PointRepositoryImplTest {
     @Test
     void retrieveUserPoint() {
         //when
-        Point point = pointRepository.findByUserId(1L)
+        Point point = pointRepository.findByUserIdWithLock(1L)
             .orElse(null);
 
         //then

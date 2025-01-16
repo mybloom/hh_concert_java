@@ -1,11 +1,11 @@
-package kr.hhplus.be.server.interfaces.usecase;
+package kr.hhplus.be.server.interfaces.queuetoken.usecase;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kr.hhplus.be.server.common.ControllerIntegrationTest;
+import kr.hhplus.be.server.common.IntegrationTest;
 import kr.hhplus.be.server.common.GenerateTokenDummyForTest;
 import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
 import kr.hhplus.be.server.domain.queuetoken.model.QueueTokenStatus;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class QueuePassSchedulerTest extends ControllerIntegrationTest {
+class QueuePassSchedulerTest extends IntegrationTest {
 
     @Autowired
     QueuePassScheduler queuePassScheduler;

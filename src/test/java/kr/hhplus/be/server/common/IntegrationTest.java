@@ -6,7 +6,7 @@ import kr.hhplus.be.server.domain.queuetoken.repository.QueueTokenRepository;
 import kr.hhplus.be.server.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class ControllerIntegrationTest {
+public abstract class IntegrationTest {
     @Autowired
     protected UserRepository userRepository;
 

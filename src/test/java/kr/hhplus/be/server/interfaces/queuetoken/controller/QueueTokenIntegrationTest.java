@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
-import kr.hhplus.be.server.common.ControllerIntegrationTest;
+import kr.hhplus.be.server.common.IntegrationTest;
 import kr.hhplus.be.server.domain.queuetoken.model.QueueOffset;
 import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
 import kr.hhplus.be.server.domain.user.domain.User;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class QueueTokenControllerIntegrationTest extends ControllerIntegrationTest {
+class QueueTokenIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

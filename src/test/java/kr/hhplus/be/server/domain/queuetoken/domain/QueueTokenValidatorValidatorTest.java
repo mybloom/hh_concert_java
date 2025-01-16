@@ -1,11 +1,12 @@
-package kr.hhplus.be.server.domainold.queuetoken.domain;
+package kr.hhplus.be.server.domain.queuetoken.domain;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
-import kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode;
+import kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErrorCode;
+import kr.hhplus.be.server.domain.queuetoken.application.QueueTokenValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,10 @@ import org.springframework.test.context.jdbc.Sql;
 @SpringBootTest
 @Sql(scripts = "classpath:data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class QueueTokenServiceTest {
+class QueueTokenValidatorValidatorTest {
 
     @Autowired
-    private QueueTokenService queueTokenService;
+    private QueueTokenValidator queueTokenValidator;
 
 
     @DisplayName("존재하지 않는 token uuid이면, exception 반환한다")
@@ -29,7 +30,7 @@ class QueueTokenServiceTest {
         String tokenUuid = "notExistUUID";
 
         //when
-        assertThatThrownBy(() -> queueTokenService.isValidToken(tokenUuid))
+        assertThatThrownBy(() -> queueTokenValidator.isValidToken(tokenUuid))
             .isInstanceOf(BusinessIllegalArgumentException.class)
             .hasMessage(IllegalArgumentErrorCode.QUEUE_TOKEN_NOT_FOUND.getMessage());
     }
@@ -41,7 +42,7 @@ class QueueTokenServiceTest {
         String tokenUuid = "550e8400-e29b-41d4-a716-446655440011";
 
         //when
-        boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
+        boolean isValidToken = queueTokenValidator.isValidToken(tokenUuid);
 
         //then
         assertThat(isValidToken).isFalse();
@@ -54,7 +55,7 @@ class QueueTokenServiceTest {
         String tokenUuid = "550e8400-e29b-41d4-a716-446655440009";
 
         //when
-        boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
+        boolean isValidToken = queueTokenValidator.isValidToken(tokenUuid);
 
         //then
         assertThat(isValidToken).isFalse();
@@ -67,7 +68,7 @@ class QueueTokenServiceTest {
         String tokenUuid = "550e8400-e29b-41d4-a716-446655440008";
 
         //when
-        boolean isValidToken = queueTokenService.isValidToken(tokenUuid);
+        boolean isValidToken = queueTokenValidator.isValidToken(tokenUuid);
 
         //then
         assertThat(isValidToken).isTrue();

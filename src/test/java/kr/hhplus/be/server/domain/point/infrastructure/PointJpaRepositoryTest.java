@@ -1,10 +1,11 @@
-package kr.hhplus.be.server.domainold.point.infrastructure;
+package kr.hhplus.be.server.domain.point.infrastructure;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
-import kr.hhplus.be.server.domainold.point.domain.Point;
+import kr.hhplus.be.server.domain.point.infrastructure.PointJpaRepository;
+import kr.hhplus.be.server.domain.point.model.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ class PointJpaRepositoryTest {
     @DisplayName("유저가 존재할 때 포인트 정보를 조회한다")
     @Test
     void findByUserIdWhenUserExists() {
-        Optional<Point> foundPoint = pointJpaRepository.findByUserId(1L);
+        Optional<Point> foundPoint = pointJpaRepository.findByUserIdWithLock(1L);
 
         assertTrue(foundPoint.isPresent());
         assertEquals(1L, foundPoint.get().getUserId());
@@ -36,7 +37,7 @@ class PointJpaRepositoryTest {
     @Test
     void chargeWhenBalanceIsUpdated() {
         //given
-        Optional<Point> beforePoint = pointJpaRepository.findByUserId(1L);
+        Optional<Point> beforePoint = pointJpaRepository.findByUserIdWithLock(1L);
         long beforeBalance = beforePoint.get().getBalance();
 
         //when
@@ -46,7 +47,7 @@ class PointJpaRepositoryTest {
         });
 
         //then
-        Optional<Point> afterPoint = pointJpaRepository.findByUserId(1L);
+        Optional<Point> afterPoint = pointJpaRepository.findByUserIdWithLock(1L);
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(afterPoint)
                 .isPresent()
