@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.util;
+package kr.hhplus.be.server.common;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
