@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.domainold.queuetoken.domain;
+package kr.hhplus.be.server.domain.queuetoken.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

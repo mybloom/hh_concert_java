@@ -1,9 +1,15 @@
-package kr.hhplus.be.server.domainold.queuetoken.domain;
+package kr.hhplus.be.server.domain.queuetoken.application;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueOffset;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueTokenProperties;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueTokenStatus;
+import kr.hhplus.be.server.domain.queuetoken.repository.QueueOffsetRepository;
+import kr.hhplus.be.server.domain.queuetoken.repository.QueueTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,10 +23,10 @@ public class QueuePassScheduler {
 
     private static final long QUEUE_OFFSET_INDEX = 1L;
 
-    private final QueueTokenService queueTokenService;
+    private final ThresholdEvaluator thresholdEvaluator;
+
     private final QueueTokenRepository queueTokenRepository;
     private final QueueTokenProperties queueTokenProperties;
-
     private final QueueOffsetRepository queueOffsetRepository;
 
     @Transactional
@@ -28,12 +34,12 @@ public class QueuePassScheduler {
     public void passQueue() {
         log.info("QueuePassScheduler passQueue start!");
         //서버 임계치 도달 여부 확인하여 분리해서 처리
-        boolean isExceeded = queueTokenService.isActiveTokenCountExceeded();
+        boolean thresholdReached = thresholdEvaluator.isThresholdReached();
 
-        if (isExceeded) {
+        if (thresholdReached) {
             log.info("Queue is exceeded");
             processAfterThreshold();
-            log.info("QueuePassScheduler processAfterThreshold();\n end!");
+            log.info("QueuePassScheduler processAfterThreshold() end!");
         } else {
             log.info("Queue is not exceeded");
             processBeforeThreshold();

@@ -1,19 +1,18 @@
-package kr.hhplus.be.server.domainold.queuetoken.domain;
+package kr.hhplus.be.server.domain.queuetoken.model;
+
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_TOKEN;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import kr.hhplus.be.server.common.config.database.BaseEntity;
-import kr.hhplus.be.server.domainold.user.domain.User;
+import kr.hhplus.be.server.common.exception.BusinessIllegalStateException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,48 +28,53 @@ public class QueueToken extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true)
     private String tokenUuid;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(unique = true)
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private QueueTokenStatus status;
 
     private LocalDateTime runningExpiredAt;
 
-    @Column(columnDefinition = "BIGINT DEFAULT 0")
+//    @Transient
     private Long waitOffset;
 
-    public static QueueToken createWaitToken(User user, Long waitOffset) {
+    public static QueueToken createWaitToken(Long userId, String tokenUuid) {
         return QueueToken.builder()
-            .user(user)
+            .userId(userId)
             .status(QueueTokenStatus.WAIT)
-            .tokenUuid(generateUuid())
-            .waitOffset(waitOffset)
+            .tokenUuid(tokenUuid)
             .build();
     }
 
-    public static QueueToken createActiveToken(User user) {
+    public static QueueToken createActiveToken(
+        Long userId, String tokenUuid, int initExpirationMinutes
+    ) {
         return QueueToken.builder()
-            .user(user)
+            .userId(userId)
             .status(QueueTokenStatus.ACTIVE)
-            .tokenUuid(generateUuid())
-            .runningExpiredAt(generateRunningExpiredAt())
+            .tokenUuid(tokenUuid)
+            .runningExpiredAt(generateRunningExpiredAt(initExpirationMinutes))
             .build();
     }
 
-    private static String generateUuid() {
-        return UUID.randomUUID().toString();
+    private static LocalDateTime generateRunningExpiredAt(int initExpirationMinutes) {
+        return LocalDateTime.now().plusMinutes(initExpirationMinutes);
     }
 
-    private static LocalDateTime generateRunningExpiredAt() {
-        return LocalDateTime.now().plusMinutes(5); //todo: properties에서 가져오기
+    public void updateWaitOffsetWith(long lastActiveOffset) {
+        if (id == null) {
+            throw new BusinessIllegalStateException(UNVERIFIED_TOKEN);
+        }
+
+        this.waitOffset = this.id - lastActiveOffset;
     }
+
 
     public boolean isExpired(int paymentExpirationMinutes) {
         //만료 조건 2가지

@@ -1,8 +1,8 @@
-package kr.hhplus.be.server.domainold.queuetoken.infrastructure;
+package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
 import java.util.Optional;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueOffset;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueOffsetRepository;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueOffset;
+import kr.hhplus.be.server.domain.queuetoken.repository.QueueOffsetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,11 @@ import org.springframework.stereotype.Repository;
 public class QueueOffsetRepositoryImpl implements QueueOffsetRepository {
 
     private final QueueOffsetJpaRepository queueOffsetJpaRepository;
+
+    @Override
+    public Optional<QueueOffset> findById(long id) {
+        return queueOffsetJpaRepository.findById(id);
+    }
 
     @Override
     public Optional<QueueOffset> findByIdWithLock(long id) {

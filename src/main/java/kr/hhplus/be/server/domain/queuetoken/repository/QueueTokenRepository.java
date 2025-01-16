@@ -1,10 +1,11 @@
-package kr.hhplus.be.server.domainold.queuetoken.domain;
+package kr.hhplus.be.server.domain.queuetoken.repository;
 
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import kr.hhplus.be.server.domainold.user.domain.User;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueTokenStatus;
 
 public interface QueueTokenRepository {
 
@@ -14,7 +15,7 @@ public interface QueueTokenRepository {
 
     QueueToken save(QueueToken token);
 
-    Optional<QueueToken> findByUser(User user);
+    Optional<QueueToken> findByUserId(long userId);
 
     void delete(QueueToken queueToken);
 

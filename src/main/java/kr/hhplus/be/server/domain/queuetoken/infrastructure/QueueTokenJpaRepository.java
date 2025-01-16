@@ -1,11 +1,10 @@
-package kr.hhplus.be.server.domainold.queuetoken.infrastructure;
+package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueToken;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueTokenStatus;
-import kr.hhplus.be.server.domainold.user.domain.User;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueTokenStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +16,7 @@ public interface QueueTokenJpaRepository extends JpaRepository<QueueToken, Long>
 
     long countByStatusIn(List<QueueTokenStatus> statusList);
 
-    Optional<QueueToken> findByUser(User user);
+    Optional<QueueToken> findByUserId(long userId);
 
     @Query("SELECT q FROM QueueToken q WHERE q.id = (SELECT MAX(q2.id) FROM QueueToken q2)")
     Optional<QueueToken> findQueueTokenWithMaxId();

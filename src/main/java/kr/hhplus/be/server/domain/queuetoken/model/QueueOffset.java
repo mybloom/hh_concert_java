@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.domainold.queuetoken.domain;
+package kr.hhplus.be.server.domain.queuetoken.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,5 +21,12 @@ public class QueueOffset {
     //todo: 스케줄러에서 처리할 수 있도록 변경
     private Long lastActiveOffset;
 
+    public void increaseOffsetByOne() {
+        this.lastActiveOffset++;
+    }
+
+    public void increaseOffset(long offset) {
+        this.lastActiveOffset = offset;
+    }
 
 }

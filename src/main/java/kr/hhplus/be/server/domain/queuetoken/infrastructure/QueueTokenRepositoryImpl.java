@@ -1,12 +1,11 @@
-package kr.hhplus.be.server.domainold.queuetoken.infrastructure;
+package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueToken;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueTokenRepository;
-import kr.hhplus.be.server.domainold.queuetoken.domain.QueueTokenStatus;
-import kr.hhplus.be.server.domainold.user.domain.User;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueTokenStatus;
+import kr.hhplus.be.server.domain.queuetoken.repository.QueueTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -32,8 +31,8 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     }
 
     @Override
-    public Optional<QueueToken> findByUser(User user) {
-        return queueTokenJpaRepository.findByUser(user);
+    public Optional<QueueToken> findByUserId(long userId) {
+        return queueTokenJpaRepository.findByUserId(userId);
     }
 
     @Override
