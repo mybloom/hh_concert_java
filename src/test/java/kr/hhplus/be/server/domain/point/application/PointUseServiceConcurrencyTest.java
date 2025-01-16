@@ -2,8 +2,6 @@ package kr.hhplus.be.server.domain.point.application;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -13,12 +11,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import kr.hhplus.be.server.common.IntegrationTest;
-import kr.hhplus.be.server.domain.point.repository.PointCommandRepository;
 import kr.hhplus.be.server.domain.point.repository.PointQueryRepository;
-import kr.hhplus.be.server.domain.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,39 +25,36 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SpringBootTest
 @Sql(scripts = "classpath:data_point.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-class PointServiceConcurrencyTest extends IntegrationTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class PointUseServiceConcurrencyTest extends IntegrationTest {
 
     @Autowired
-    private PointChargeService pointChargeService;
+    private PointUseService pointUseService;
 
     @Autowired
     private PointQueryRepository pointQueryRepository;
 
-    @Autowired
-    private PointCommandRepository pointCommandRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
-    private User user;
 
-    @DisplayName("한 사용자가 여러 번 충전하는 경우, 충전 금액이 누적되어야 한다.")
+    @DisplayName("한 사용자가 여러 번 포인트를 사용하는 경우, 사용 금액이 잔액에 반영되어야 한다.")
     @Test
-    void testUserChargesMultipleTimes() throws ExecutionException, InterruptedException {
+    void testUseMultipleTimes() throws ExecutionException, InterruptedException {
         //given
         long userId = 1L;
         long amount = 1000;
-        int chargeCount = 50;
+        int useCount = 50;
+        long initialBalance = 60000;
 
         //비동기 요청 처리 준비
         ExecutorService executorService = Executors.newFixedThreadPool(20);
-        final List<CompletableFuture<Boolean>> tasks = new ArrayList<>(chargeCount);
+        final List<CompletableFuture<Boolean>> tasks = new ArrayList<>(useCount);
         final AtomicInteger exceptionCount = new AtomicInteger(0);
 
         //when
-        for (int i = 0; i < chargeCount; i++) {
+        for (int i = 0; i < useCount; i++) {
             tasks.add(CompletableFuture.supplyAsync(() -> {
-                pointChargeService.charge(userId, amount);
+                pointUseService.use(userId, amount);
                 return true;
-            },executorService).exceptionally(e -> {
+            }, executorService).exceptionally(e -> {
                 exceptionCount.incrementAndGet();
                 return false;
             }));
@@ -98,7 +92,7 @@ class PointServiceConcurrencyTest extends IntegrationTest {
 
             softAssertions.assertThat(finalSuccessCount)
                 .as("성공한 요청 횟수 검증")
-                .isEqualTo(chargeCount);
+                .isEqualTo(useCount);
 
             softAssertions.assertThat(finalFailureCount)
                 .as("실패한 요청 횟수 검증")
@@ -106,7 +100,7 @@ class PointServiceConcurrencyTest extends IntegrationTest {
 
             softAssertions.assertThat(pointQueryRepository.findByUserId(userId).get().getBalance())
                 .as("최종 잔액 검증")
-                .isEqualTo(amount * chargeCount);
+                .isEqualTo(initialBalance - (amount * useCount));
         });
     }
 
