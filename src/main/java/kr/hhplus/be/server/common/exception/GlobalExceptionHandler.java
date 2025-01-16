@@ -2,8 +2,8 @@ package kr.hhplus.be.server.common.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import kr.hhplus.be.server.common.exception.errorcode.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,16 +27,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
         MethodArgumentTypeMismatchException ex) {
+
         ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.INTERNAL_SERVER_ERROR,
-            "Invalid date format or missing parameter."
+            HttpStatus.BAD_REQUEST,
+            ex.getMessage()
         );
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(headers).body(errorResponse);
     }
 
-    @SneakyThrows
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
         MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status,

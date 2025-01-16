@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.common.exception;
+package kr.hhplus.be.server.common.exception.errorcode;
 
 import org.springframework.http.HttpStatus;
 

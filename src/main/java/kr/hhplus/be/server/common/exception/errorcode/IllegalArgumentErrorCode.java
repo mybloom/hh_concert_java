@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.common.exception;
+package kr.hhplus.be.server.common.exception.errorcode;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,13 @@ public enum IllegalArgumentErrorCode implements ErrorCode {
 
     //USER
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "사용자를 찾을 수 없습니다."),
+    INVALID_USER(HttpStatus.BAD_REQUEST, "사용자id는 필수입니다."),
 
     //TOKEN
     QUEUE_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당 대기열 토큰을 찾을 수 없습니다."),
+
+    //QueueOffset
+    QUEUE_OFFSET_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당 대기열 오프셋을 찾을 수 없습니다."),
 
     //CONCERT
     INVALID_CONCERT_ID(HttpStatus.BAD_REQUEST, "콘서트 ID를 찾을 수 없습니다."),
