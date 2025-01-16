@@ -44,4 +44,7 @@ public interface QueueTokenJpaRepository extends JpaRepository<QueueToken, Long>
 
     List<QueueToken> findByIdGreaterThanEqual(Long id);
 
+    @Query("SELECT COUNT(q) FROM QueueToken q WHERE q.id > :id AND q.status = :status")
+    long countTokensByIdAndStatus(@Param("id") long id, @Param("status") QueueTokenStatus status);
+
 }

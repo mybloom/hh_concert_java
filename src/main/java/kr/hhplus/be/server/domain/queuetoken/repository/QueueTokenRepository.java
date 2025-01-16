@@ -37,4 +37,8 @@ public interface QueueTokenRepository {
 
 
     int updateTokenStatusAndOffset(long id, QueueTokenStatus wait, long waitOffset);
+
+    long countByIdGreaterThanAndStatus(long id, QueueTokenStatus wait);
+
+    void saveAll(List<QueueToken> tokens);
 }

@@ -1,8 +1,5 @@
 package kr.hhplus.be.server.domain.queuetoken.application;
 
-import static kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErrorCode.QUEUE_OFFSET_NOT_FOUND;
-
-import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
 import kr.hhplus.be.server.domain.queuetoken.application.result.QueueTokenResult;
 import kr.hhplus.be.server.domain.queuetoken.application.result.WaitQueueTokenResult;
 import kr.hhplus.be.server.domain.queuetoken.model.QueueOffset;
@@ -27,6 +24,8 @@ public class QueueTokenCreateService {
     private final QueueTokenRepository queueTokenRepository;
     private final QueueOffsetRepository queueOffsetRepository;
 
+    private final QueueOffsetService queueOffsetService;
+
 
     public QueueTokenResult createActiveQueueToken(final long userId) {
         final String tokenUuid = tokenUuidGenerator.generateTokenUuid();
@@ -39,7 +38,7 @@ public class QueueTokenCreateService {
         queueToken = queueTokenRepository.save(queueToken);
 
         //lastActiveOffset 증가 처리
-        QueueOffset queueOffset = retrieveQueueOffset();
+        QueueOffset queueOffset = queueOffsetService.retrieveQueueOffset();
         queueOffset.increaseOffsetByOne();
         queueOffsetRepository.save(queueOffset);
 
@@ -56,14 +55,12 @@ public class QueueTokenCreateService {
         queueToken = queueTokenRepository.save(queueToken);
 
         //waitOffset 계산
-        WaitQueueTokenResult waitQueueTokenResult = WaitOffsetCalculator.calculate(queueToken, retrieveQueueOffset());
+        WaitQueueTokenResult waitQueueTokenResult = WaitOffsetCalculator.calculate(
+            queueToken,
+            queueOffsetService.retrieveQueueOffset()
+        );
 
         return QueueTokenResult.waitQueueTokenResponse(queueToken.getTokenUuid(), queueToken.getStatus(), waitQueueTokenResult);
     }
 
-    private QueueOffset retrieveQueueOffset() {
-        QueueOffset queueOffset = queueOffsetRepository.findById(FIRST_OFFSET_ID)
-            .orElseThrow(() -> new BusinessIllegalArgumentException(QUEUE_OFFSET_NOT_FOUND));
-        return queueOffset;
-    }
 }

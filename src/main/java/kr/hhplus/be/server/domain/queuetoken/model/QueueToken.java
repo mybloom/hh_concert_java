@@ -1,6 +1,7 @@
 package kr.hhplus.be.server.domain.queuetoken.model;
 
 import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_TOKEN;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_TOKEN_STATUS;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +10,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 import kr.hhplus.be.server.common.config.database.BaseEntity;
 import kr.hhplus.be.server.common.exception.BusinessIllegalStateException;
@@ -41,7 +41,7 @@ public class QueueToken extends BaseEntity {
 
     private LocalDateTime runningExpiredAt;
 
-//    @Transient
+    //    @Transient
     private Long waitOffset;
 
     public static QueueToken createWaitToken(Long userId, String tokenUuid) {
@@ -75,23 +75,29 @@ public class QueueToken extends BaseEntity {
         this.waitOffset = this.id - lastActiveOffset;
     }
 
-
     public boolean isExpired(int paymentExpirationMinutes) {
-        //만료 조건 2가지
+        //만료 조건 2가지(OR 조건)
         //1. status가 INVALID인 경우
         if (status.equals(QueueTokenStatus.INVALID)) {
             return true;
         }
 
-        //2. expirationProcessingTime이 지났을 경우 : runningExpiredAt + paymentExpirationMinutes
-        LocalDateTime expirationProcessingTime =
-            runningExpiredAt.plusMinutes(paymentExpirationMinutes);
-        boolean isAfter = LocalDateTime.now().isAfter(expirationProcessingTime);
-        if (isAfter) {
-            return true;
-        }
+        //2. status가 ACTIVE이고, expirationProcessingTime이 지났을 경우
+        return isExpirationTimeReached(paymentExpirationMinutes);
+    }
 
-        return false;
+    public void invalidate() {
+        if (!status.equals(QueueTokenStatus.ACTIVE)) {
+            throw new BusinessIllegalStateException(UNVERIFIED_TOKEN_STATUS);
+        }
+        status = QueueTokenStatus.INVALID;
+    }
+
+    public boolean isExpirationTimeReached(int paymentExpirationMinutes) {
+        LocalDateTime expirationProcessingTime = runningExpiredAt.plusMinutes(paymentExpirationMinutes);
+        boolean isAfter = LocalDateTime.now().isAfter(expirationProcessingTime);
+
+        return isAfter;
     }
 
 }

@@ -16,17 +16,17 @@ public class QueueOffsetService {
     private static final long FIRST_OFFSET_ID = 1L;
     private final QueueOffsetRepository queueOffsetRepository;
 
-    public void increaseLastActiveOffset() {
-        QueueOffset queueOffset = retrieveQueueOffset();
-        queueOffset.increaseOffsetByOne();
-
-        queueOffsetRepository.save(queueOffset);
-    }
-
     public QueueOffset retrieveQueueOffset() {
         QueueOffset queueOffset = queueOffsetRepository.findById(FIRST_OFFSET_ID)
             .orElseThrow(() -> new BusinessIllegalArgumentException(QUEUE_OFFSET_NOT_FOUND));
         return queueOffset;
+    }
+
+    public void updateLastActiveOffset(long lastActiveOffset) {
+        QueueOffset queueOffset = retrieveQueueOffset();
+        queueOffset.setLastActiveOffset(lastActiveOffset);
+
+        queueOffsetRepository.save(queueOffset);
     }
 
 }

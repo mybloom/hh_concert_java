@@ -84,4 +84,14 @@ public class QueueTokenRepositoryImpl implements QueueTokenRepository {
     public List<QueueToken> findByIdGreaterThanEqual(Long id) {
         return queueTokenJpaRepository.findByIdGreaterThanEqual(id);
     }
+
+    @Override
+    public long countByIdGreaterThanAndStatus(long id, QueueTokenStatus status) {
+        return queueTokenJpaRepository.countTokensByIdAndStatus(id, status);
+    }
+
+    @Override
+    public void saveAll(List<QueueToken> tokens) {
+        queueTokenJpaRepository.saveAll(tokens);
+    }
 }
