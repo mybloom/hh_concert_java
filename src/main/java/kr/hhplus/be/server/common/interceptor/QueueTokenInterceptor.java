@@ -20,8 +20,7 @@ public class QueueTokenInterceptor implements HandlerInterceptor {
     private final QueueTokenValidator queueTokenValidator;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-        Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String queueTokenUuid = request.getHeader("x-queue-token");
 
@@ -38,7 +37,8 @@ public class QueueTokenInterceptor implements HandlerInterceptor {
         }
 
         //queueToken 검증 로직
-        return queueTokenValidator.isValidToken(queueTokenUuid);
+        boolean validToken = queueTokenValidator.isValidToken(queueTokenUuid);
+        return validToken;
     }
 
 }

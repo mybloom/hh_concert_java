@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.hhplus.be.server.domain.queuetoken.application.result.QueueTokenResult;
 import kr.hhplus.be.server.interfaces.queuetoken.dto.TokenRequest;
-import kr.hhplus.be.server.interfaces.usecase.QueueTokenCreateUseCase;
+import kr.hhplus.be.server.interfaces.queuetoken.usecase.QueueTokenCreateUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
