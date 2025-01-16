@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.domainold.user.domain;
+package kr.hhplus.be.server.domain.user.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,10 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
+@AllArgsConstructor //todo: 제거 예정
+@NoArgsConstructor
 @Table(name = "users")
 @Entity
 public class User {
