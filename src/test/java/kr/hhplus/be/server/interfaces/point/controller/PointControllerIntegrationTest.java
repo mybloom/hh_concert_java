@@ -8,11 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
-import kr.hhplus.be.server.common.config.web.WebQueueTokenInterceptorConfig;
+import kr.hhplus.be.server.common.ControllerIntegrationTest;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueOffset;
 import kr.hhplus.be.server.domain.queuetoken.model.QueueToken;
-import kr.hhplus.be.server.domain.queuetoken.repository.QueueTokenRepository;
 import kr.hhplus.be.server.domain.user.domain.User;
-import kr.hhplus.be.server.domain.user.repository.UserRepository;
 import kr.hhplus.be.server.interfaces.point.dto.PointChargeRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,38 +27,33 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 테스트코드
- * - E2E 테스트 목적으로 작성한 건데 이게 E2E테스트가 맞는걸까?
+ * 테스트코드 - E2E 테스트 목적으로 작성한 건데 이게 E2E테스트가 맞는걸까?
  */
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest
-@Import(WebQueueTokenInterceptorConfig.class) //interceptor 빈 등록. 테스트에서는 token 검증을 위해 필요하므로 등록함.
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class PointControllerIntegrationTest {
+class PointControllerIntegrationTest extends ControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private QueueTokenRepository queueTokenRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
     private String tokenUuid;
 
     @BeforeEach
     void setup() {
-        //DB에 user, token 저장
+        //DB에 user, token, offset 저장
         final User user = userRepository.save(new User());
 
         tokenUuid = UUID.randomUUID().toString();
-        final QueueToken queueToken = QueueToken.createActiveToken(user.getId(), tokenUuid);
+        final QueueToken queueToken = QueueToken.createActiveToken(
+            user.getId(), tokenUuid, queueTokenProperties.getInitExpirationMinutes()
+        );
         queueTokenRepository.save(queueToken);
+        queueOffsetRepository.save(QueueOffset.of(1L));
     }
 
     @DisplayName("충전 요청 후 정상적으로 잔액이 반환된다.")
@@ -74,9 +67,9 @@ class PointControllerIntegrationTest {
 
         //when
         final ResultActions result = mockMvc.perform(post("/api/points")
-            .content(requestBody)
             .contentType(MediaType.APPLICATION_JSON)
             .header("x-queue-token", tokenUuid)
+            .content(requestBody)
         );
 
         //then
