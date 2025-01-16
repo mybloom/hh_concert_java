@@ -20,6 +20,6 @@ public abstract class ControllerIntegrationTest {
     protected QueueTokenRepository queueTokenRepository;
 
     @Autowired
-    private DataCleaner dataCleaner;
+    protected DataCleaner dataCleaner;
 
 }
