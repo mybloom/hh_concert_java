@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface PointJpaRepository extends JpaRepository<Point, Long> {
 
+    Optional<Point> findByUserId(long userId);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Point p where p.userId = :userId")
     Optional<Point> findByUserIdWithLock(@Param("userId") Long userId);

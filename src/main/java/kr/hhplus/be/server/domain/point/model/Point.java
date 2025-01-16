@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.domain.point.model;
 
-import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.*;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErrorCode.*;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
