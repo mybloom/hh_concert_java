@@ -104,7 +104,6 @@ class QueueTokenControllerIntegrationTest extends ControllerIntegrationTest {
             .andExpect(jsonPath("$.data.status").value("WAIT"));
     }
 
-    //todo: 이렇게 샘플 데이터를 넣는 것이 맞는걸까?
     private Long setupForWaitTokenTest() {
         //사용자 생성
         User user1 = userRepository.save(new User());
@@ -127,7 +126,7 @@ class QueueTokenControllerIntegrationTest extends ControllerIntegrationTest {
         //offset 증가
         queueOffsetRepository.findById(1L)
             .ifPresent(queueOffset -> {
-                queueOffset.increaseOffset(2);
+                queueOffset.setLastActiveOffset(2);
                 queueOffsetRepository.save(queueOffset);
             });
 
