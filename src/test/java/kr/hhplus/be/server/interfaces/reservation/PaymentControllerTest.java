@@ -7,11 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.hhplus.be.server.common.DataCleaner;
-import kr.hhplus.be.server.interfaces.reservation.dto.PaymentRequest;
 import kr.hhplus.be.server.domain.reservation.domain.Reservation;
+import kr.hhplus.be.server.interfaces.reservation.dto.PaymentRequest;
 import kr.hhplus.be.server.interfaces.reservation.dto.ReservationRequest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +38,6 @@ class PaymentControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private DataCleaner dataCleaner;
-
-    @BeforeEach
-    void setUp() {
-        dataCleaner.clean();
-    }
 
 
     @DisplayName("존재하지 않는 reservationId로 결제 요청 시 예외 발생")
