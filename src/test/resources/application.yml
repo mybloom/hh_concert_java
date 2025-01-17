@@ -14,10 +14,6 @@ spring:
     url: jdbc:mysql://localhost:3308/hhplus?characterEncoding=UTF-8&serverTimezone=UTC
     username: application
     password: application
-    hikari:
-      maximum-pool-size: 3
-      connection-timeout: 10000
-      max-lifetime: 60000
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     open-in-view: false
