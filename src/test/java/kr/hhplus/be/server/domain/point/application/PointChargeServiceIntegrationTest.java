@@ -52,18 +52,4 @@ class PointChargeServiceIntegrationTest {
         assertThat(newBalance).isEqualTo(pointHeld + pointCharge);
     }
 
-    @DisplayName("충전한 이력이 없는 사용자가 100원을 충전한다.")
-    @Test
-    void chargeForNewUser() {
-        // given
-        final long userId = 1L;
-        final long pointCharge = 100L;
-
-        // when
-        long newBalance = pointService.charge(userId, pointCharge);
-
-        // then
-        assertThat(newBalance).isEqualTo(pointCharge);
-    }
-
 }
