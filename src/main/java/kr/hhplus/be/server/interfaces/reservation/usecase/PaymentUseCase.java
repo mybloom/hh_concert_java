@@ -2,7 +2,6 @@ package kr.hhplus.be.server.interfaces.reservation.usecase;
 
 import kr.hhplus.be.server.domain.point.application.PointUseService;
 import kr.hhplus.be.server.domain.reservation.application.PaymentService;
-import kr.hhplus.be.server.domain.reservation.application.ReservationService;
 import kr.hhplus.be.server.domain.reservation.application.SeatService;
 import kr.hhplus.be.server.domain.reservation.domain.Reservation;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ public class PaymentUseCase {
     private final PaymentService paymentService;
     private final PointUseService pointUseService;
     private final SeatService seatService; //todo: seatService 안쓰도록 리팩토링. reservation에 price 필드 추가.
-    private final ReservationService reservationService;
 
     @Transactional
     public long pay(long userId, long reservationId){

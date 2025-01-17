@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.reservation.infrastructure;
 
+import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.reservation.domain.Reservation;
 import kr.hhplus.be.server.domain.reservation.repository.ReservationRepository;
@@ -25,5 +26,10 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     @Override
     public Optional<Reservation> findById(long reservationId) {
         return reserveJpaRepository.findById(reservationId);
+    }
+
+    @Override
+    public List<Reservation> findAllById(long seatId) {
+        return reserveJpaRepository.findAllById(seatId);
     }
 }

@@ -13,7 +13,10 @@ public enum IllegalStateErrorCode implements ErrorCode {
 
     //RESERVATION
     UNVERIFIED_RESERVATION(HttpStatus.BAD_REQUEST, "유효한 예약 데이터가 아닙니다."),
-    UNVERIFIED_RESERVATION_STATUS(HttpStatus.BAD_REQUEST, "유효한 예약 상태가 아닙니다.");
+    UNVERIFIED_RESERVATION_STATUS(HttpStatus.BAD_REQUEST, "유효한 예약 상태가 아닙니다."),
+
+    //SEAT
+    SEAT_ALREADY_RESERVED(HttpStatus.BAD_REQUEST, "이미 예약된 좌석입니다.");
 
 
 

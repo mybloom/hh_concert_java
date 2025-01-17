@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.interfaces.reservation;
+package kr.hhplus.be.server.interfaces.reservation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

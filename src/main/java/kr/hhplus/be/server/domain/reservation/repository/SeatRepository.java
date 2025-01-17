@@ -10,6 +10,7 @@ public interface SeatRepository {
     List<Seat> findAllByScheduleId(long scheduleId);
 
     Optional<Seat> findById(long seatId);
+    Optional<Seat> findByIdWithLock(long seatId);
 
     Seat save(Seat seat);
 

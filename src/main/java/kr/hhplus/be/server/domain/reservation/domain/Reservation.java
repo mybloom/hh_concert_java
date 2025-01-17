@@ -4,6 +4,7 @@ import static kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErro
 import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_RESERVATION;
 import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_RESERVATION_STATUS;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,6 +33,7 @@ public class Reservation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private long seatId;
 
     private long userId;

@@ -11,6 +11,7 @@ import kr.hhplus.be.server.domain.reservation.application.ReservationService;
 import kr.hhplus.be.server.domain.reservation.application.SeatService;
 import kr.hhplus.be.server.domain.reservation.application.result.ReservationResponse;
 import kr.hhplus.be.server.domain.reservation.application.result.SeatResponse;
+import kr.hhplus.be.server.interfaces.reservation.dto.ReservationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
