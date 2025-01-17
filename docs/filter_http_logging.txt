@@ -1,0 +1,50 @@
+# Filter를 이용해 http request, response 로깅하기
+
+## 포인트 조회 api
+09:55:48.052 [INFO ] [http-nio-8080-exec-5] [k.h.b.s.common.filter.LoggingFilter] - === HTTP Request ===
+Method: GET
+URI: /api/points
+Headers:
+x-queue-token: 550e8400-e29b-41d4-a716-446655440001
+content-type: application/json
+user-agent: PostmanRuntime/7.43.0
+accept: */*
+cache-control: no-cache
+postman-token: ca714655-7f0e-444c-9d9a-d9dfcdabb004
+host: localhost:8080
+accept-encoding: gzip, deflate, br
+connection: keep-alive
+content-length: 24
+Query String: userId=1
+Body:
+====================
+09:55:48.052 [INFO ] [http-nio-8080-exec-5] [k.h.b.s.common.filter.LoggingFilter] - === HTTP Response ===
+Status: 200
+Body: {"code":200,"data":{"balance":300000}}
+=====================
+
+## 포인트 충전 api
+09:56:10.653 [INFO ] [http-nio-8080-exec-6] [k.h.b.s.common.filter.LoggingFilter] - === HTTP Request ===
+Method: POST
+URI: /api/points
+Headers:
+x-queue-token: 550e8400-e29b-41d4-a716-446655440001
+content-type: application/json
+user-agent: PostmanRuntime/7.43.0
+accept: */*
+cache-control: no-cache
+postman-token: db966e7a-e424-4454-a2f8-6ca11b48b721
+host: localhost:8080
+accept-encoding: gzip, deflate, br
+connection: keep-alive
+content-length: 45
+Query String: null
+Body: {
+    "userId":1,
+    "amount":100000
+}
+====================
+09:56:10.653 [INFO ] [http-nio-8080-exec-6] [k.h.b.s.common.filter.LoggingFilter] - === HTTP Response ===
+Status: 200
+Body: {"code":200,"data":{"balance":400000}}
+=====================
