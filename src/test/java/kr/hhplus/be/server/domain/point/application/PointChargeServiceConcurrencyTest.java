@@ -39,6 +39,7 @@ class PointChargeServiceConcurrencyTest extends IntegrationTest {
         long userId = 1L;
         long amount = 1000;
         int chargeCount = 50;
+        int initialBalance = 60_000;
 
         //비동기 요청 처리 준비
         ExecutorService executorService = Executors.newFixedThreadPool(20);
@@ -96,7 +97,7 @@ class PointChargeServiceConcurrencyTest extends IntegrationTest {
 
             softAssertions.assertThat(pointQueryRepository.findByUserId(userId).get().getBalance())
                 .as("최종 잔액 검증")
-                .isEqualTo(amount * chargeCount);
+                .isEqualTo(initialBalance + (amount * chargeCount));
         });
     }
 

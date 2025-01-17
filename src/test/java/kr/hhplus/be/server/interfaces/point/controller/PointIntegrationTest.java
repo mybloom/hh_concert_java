@@ -26,9 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 테스트코드 - E2E 테스트 목적으로 작성한 건데 이게 E2E테스트가 맞는걸까?
- */
+
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -43,10 +41,12 @@ class PointIntegrationTest extends IntegrationTest {
 
     private String tokenUuid;
 
+    private User user;
+
     @BeforeEach
     void setup() {
         //DB에 user, token, offset 저장
-        final User user = userRepository.save(new User());
+        user = userRepository.save(new User());
 
         tokenUuid = UUID.randomUUID().toString();
         final QueueToken queueToken = QueueToken.createActiveToken(
@@ -60,7 +60,7 @@ class PointIntegrationTest extends IntegrationTest {
     @Test
     void testChargePoint() throws Exception {
         //given
-        long userId = 1L;
+        long userId = user.getId();
         long chargeAmount = 1000L;
 
         String requestBody = objectMapper.writeValueAsString(new PointChargeRequest(userId, chargeAmount));

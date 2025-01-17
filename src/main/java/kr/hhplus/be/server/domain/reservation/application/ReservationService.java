@@ -26,8 +26,10 @@ public class ReservationService {
     @Transactional
     public ReservationResponse reserve(ReservationRequest request) {
         //좌석 상태 AVAILABLE 인지 확인
-        Seat seat = seatRepository.findByIdWithLock(request.getSeatId())
+        Seat seat = seatRepository.findByIdWithLock(request.getSeatId()) //todo: 확인필요. 사실 lock을 잡는게 의미가 없을 수도 있음.
             .orElseThrow(() -> new BusinessIllegalArgumentException(INVALID_SEAT_ID));
+
+        //todo: 좌석 상태 확인이 필요해보임.
 
         //예약 정보 확인
         reservationRepository.findBySeatId(request.getSeatId())
@@ -41,7 +43,7 @@ public class ReservationService {
         //좌석 상태 저장
         seatRepository.updateSeatStatus(seat.getId(), SeatReserveStatus.OCCUPIED);
 
-        //예약 정보 저장
+        //예약 정보 저장 //todo: 동시성은 여기에 unique key걸어서 성공한 것 같다. 데이터 없을 때 lock을 잡아야 하면 테이블 락을 걸어야 할수도 있을 것 같다.
         Reservation reservation = reservationRepository.save(
             Reservation.createTempReservation(request.getSeatId(), request.getUserId())
         );

@@ -4,7 +4,6 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
-import kr.hhplus.be.server.domain.point.infrastructure.PointJpaRepository;
 import kr.hhplus.be.server.domain.point.model.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

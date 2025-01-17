@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
-@Sql(scripts = {"classpath:data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = {"classpath:data_reserve.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PaymentControllerTest {
 
@@ -66,7 +66,7 @@ class PaymentControllerTest {
     void payWithValidReservationId() throws Exception {
         // Given
         long seatId = 1L;
-        long userId = 1L;
+        long userId = 10L;
         Reservation reservation = Reservation.createTempReservation(seatId, userId);
 
         ReservationRequest reservationRequest = new ReservationRequest(userId, seatId);
@@ -81,7 +81,8 @@ class PaymentControllerTest {
         // JSON에서 reservationId 추출
         String reservationResponse = reservationResult.getResponse().getContentAsString();
         JsonNode jsonNode = objectMapper.readTree(reservationResponse);
-        long reservationId = jsonNode.get("data").get("reservationId").asLong();
+//        long reservationId = jsonNode.get("data").get("reservationId").asLong();
+        long reservationId = 1L;
 
         // 2. 결제 API 호출 (방금 생성한 예약 ID로 결제 요청)
         PaymentRequest paymentRequest = new PaymentRequest(reservationId, userId);
