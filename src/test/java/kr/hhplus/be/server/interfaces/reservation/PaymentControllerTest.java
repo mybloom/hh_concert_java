@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.hhplus.be.server.common.DataCleaner;
 import kr.hhplus.be.server.interfaces.reservation.dto.PaymentRequest;
 import kr.hhplus.be.server.domain.reservation.domain.Reservation;
+import kr.hhplus.be.server.interfaces.reservation.dto.ReservationRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
