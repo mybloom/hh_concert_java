@@ -3,7 +3,7 @@ package kr.hhplus.be.server.domain.reservation.infrastructure;
 import java.util.List;
 import java.util.Optional;
 import kr.hhplus.be.server.domain.reservation.domain.Seat;
-import kr.hhplus.be.server.domain.reservation.domain.SeatRepository;
+import kr.hhplus.be.server.domain.reservation.repository.SeatRepository;
 import kr.hhplus.be.server.domain.reservation.domain.SeatReserveStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,6 +22,11 @@ public class SeatRepositoryImpl implements SeatRepository {
     @Override
     public Optional<Seat> findById(long seatId) {
         return seatJpaRepository.findById(seatId);
+    }
+
+    @Override
+    public Optional<Seat> findByIdWithLock(long seatId) {
+        return seatJpaRepository.findByIdWithLock(seatId);
     }
 
     @Override

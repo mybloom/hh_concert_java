@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.domain.concert.domain;
 
-import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.INVALID_CONCERT_ID;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErrorCode.INVALID_CONCERT_ID;
 
 import java.util.List;
 import java.util.stream.Collectors;

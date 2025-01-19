@@ -1,20 +1,26 @@
 package kr.hhplus.be.server.domain.point.infrastructure;
 
 import java.util.Optional;
-import kr.hhplus.be.server.domain.point.domain.Point;
-import kr.hhplus.be.server.domain.point.domain.PointRepository;
+import kr.hhplus.be.server.domain.point.model.Point;
+import kr.hhplus.be.server.domain.point.repository.PointCommandRepository;
+import kr.hhplus.be.server.domain.point.repository.PointQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class PointRepositoryImpl implements PointRepository {
+public class PointRepositoryImpl implements PointQueryRepository, PointCommandRepository {
 
     private final PointJpaRepository pointJpaRepository;
 
     @Override
     public Optional<Point> findByUserId(long userId) {
         return pointJpaRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Optional<Point> findByUserIdWithLock(long userId) {
+        return pointJpaRepository.findByUserIdWithLock(userId);
     }
 
     @Override

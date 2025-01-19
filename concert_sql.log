@@ -1,0 +1,298 @@
+20:02:00.700 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:02:00.750 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:02:00.811 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:02:46.121 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:02:54.840 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:02:54.876 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:02:54.913 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:03:21.365 [DEBUG] [http-nio-8080-exec-2] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:03:23.473 [DEBUG] [http-nio-8080-exec-3] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:03:24.801 [DEBUG] [http-nio-8080-exec-4] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:03:26.016 [DEBUG] [http-nio-8080-exec-9] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:03:26.960 [DEBUG] [http-nio-8080-exec-6] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:03:27.894 [DEBUG] [http-nio-8080-exec-7] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:03:29.171 [DEBUG] [http-nio-8080-exec-8] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:13:01.809 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:01.862 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists concert
+20:13:01.875 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists payment
+20:13:01.885 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:13:01.917 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:01.925 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:01.932 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists reservation
+20:13:01.941 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists schedule
+20:13:01.949 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists seat
+20:13:01.958 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists users
+20:13:01.995 [DEBUG] [main] [org.hibernate.SQL] - create table concert (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), name varchar(255), primary key (id)) engine=InnoDB
+20:13:02.034 [DEBUG] [main] [org.hibernate.SQL] - create table payment (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), reservation_id bigint not null, user_id bigint not null, primary key (id)) engine=InnoDB
+20:13:02.073 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:13:02.112 [DEBUG] [main] [org.hibernate.SQL] - create table queue_offset (id bigint not null auto_increment, last_active_offset bigint, primary key (id)) engine=InnoDB
+20:13:02.154 [DEBUG] [main] [org.hibernate.SQL] - create table queue_token (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), running_expired_at datetime(6), user_id bigint, wait_offset BIGINT DEFAULT 0, token_uuid varchar(255), status enum ('ACTIVE','INVALID','WAIT'), primary key (id)) engine=InnoDB
+20:13:02.204 [DEBUG] [main] [org.hibernate.SQL] - create table reservation (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), seat_id bigint not null, user_id bigint not null, status enum ('RESERVED','TEMP'), primary key (id)) engine=InnoDB
+20:13:02.252 [DEBUG] [main] [org.hibernate.SQL] - create table schedule (schedule_date date, concert_id bigint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB
+20:13:02.304 [DEBUG] [main] [org.hibernate.SQL] - create table seat (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), price bigint not null, schedule_id bigint not null, seat_no bigint not null, status enum ('AVAILABLE','OCCUPIED'), primary key (id)) engine=InnoDB
+20:13:02.373 [DEBUG] [main] [org.hibernate.SQL] - create table users (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB
+20:13:02.422 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:13:02.450 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UK5olubx2eijmky1ho93xn1rdkj unique (user_id)
+20:13:02.493 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UKguhbuflx1m69o0s2lb3uthg5l unique (token_uuid)
+20:13:02.523 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint FK1ysqvvjw3tyctcpgjpr5jsued foreign key (user_id) references users (id)
+20:13:07.519 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select count(qt1_0.id) from queue_token qt1_0 where qt1_0.status in (?,?)
+20:13:07.599 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:07.677 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:07.757 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.778 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.783 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.789 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.793 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.797 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.802 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.807 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.813 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.818 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.826 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.833 [DEBUG] [main] [org.hibernate.SQL] - select p1_0.id,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.reservation_id,p1_0.user_id from payment p1_0 where p1_0.reservation_id=?
+20:13:07.840 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.843 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.856 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.860 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:07.864 [DEBUG] [main] [org.hibernate.SQL] - select r1_0.id,r1_0.created_at,r1_0.deleted_at,r1_0.modified_at,r1_0.seat_id,r1_0.status,r1_0.user_id from reservation r1_0 where r1_0.id=?
+20:13:07.913 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qo1_0.id,qo1_0.last_active_offset from queue_offset qo1_0 where qo1_0.id=? for update
+20:13:07.924 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.928 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.931 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.934 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.937 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.940 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.943 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.946 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.949 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.952 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.955 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.958 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.961 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.964 [DEBUG] [scheduling-1] [org.hibernate.SQL] - delete from queue_token where id=?
+20:13:07.966 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.id=(select max(qt2_0.id) from queue_token qt2_0)
+20:13:07.989 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:07.991 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:07.996 [DEBUG] [main] [org.hibernate.SQL] - select s1_0.id,s1_0.created_at,s1_0.deleted_at,s1_0.modified_at,s1_0.price,s1_0.schedule_id,s1_0.seat_no,s1_0.status from seat s1_0 where s1_0.id=?
+20:13:08.001 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.004 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.008 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.013 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.018 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.023 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.026 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.031 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.035 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.041 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.047 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.052 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.056 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.062 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.068 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.073 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.079 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.084 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.090 [DEBUG] [scheduling-1] [org.hibernate.SQL] - update queue_token qt1_0 set status=?,wait_offset=?,running_expired_at=? where qt1_0.id=?
+20:13:08.092 [DEBUG] [main] [org.hibernate.SQL] - update seat set modified_at=?,price=?,schedule_id=?,seat_no=?,status=? where id=?
+20:13:08.098 [DEBUG] [main] [org.hibernate.SQL] - update seat s1_0 set status=? where s1_0.id=?
+20:13:08.113 [DEBUG] [main] [org.hibernate.SQL] - insert into reservation (created_at,deleted_at,modified_at,seat_id,status,user_id) values (?,?,?,?,?,?)
+20:13:08.160 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:08.166 [DEBUG] [main] [org.hibernate.SQL] - select p1_0.id,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.reservation_id,p1_0.user_id from payment p1_0 where p1_0.reservation_id=?
+20:13:08.175 [DEBUG] [main] [org.hibernate.SQL] - insert into payment (created_at,deleted_at,modified_at,reservation_id,user_id) values (?,?,?,?,?)
+20:13:09.541 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:09.563 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists concert
+20:13:09.587 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists payment
+20:13:09.609 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:13:09.631 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:09.655 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:09.678 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists reservation
+20:13:09.701 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists schedule
+20:13:09.719 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists seat
+20:13:09.747 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists users
+20:13:09.773 [DEBUG] [main] [org.hibernate.SQL] - create table concert (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), name varchar(255), primary key (id)) engine=InnoDB
+20:13:09.811 [DEBUG] [main] [org.hibernate.SQL] - create table payment (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), reservation_id bigint not null, user_id bigint not null, primary key (id)) engine=InnoDB
+20:13:09.847 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:13:09.884 [DEBUG] [main] [org.hibernate.SQL] - create table queue_offset (id bigint not null auto_increment, last_active_offset bigint, primary key (id)) engine=InnoDB
+20:13:09.917 [DEBUG] [main] [org.hibernate.SQL] - create table queue_token (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), running_expired_at datetime(6), user_id bigint, wait_offset BIGINT DEFAULT 0, token_uuid varchar(255), status enum ('ACTIVE','INVALID','WAIT'), primary key (id)) engine=InnoDB
+20:13:09.947 [DEBUG] [main] [org.hibernate.SQL] - create table reservation (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), seat_id bigint not null, user_id bigint not null, status enum ('RESERVED','TEMP'), primary key (id)) engine=InnoDB
+20:13:09.979 [DEBUG] [main] [org.hibernate.SQL] - create table schedule (schedule_date date, concert_id bigint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB
+20:13:10.019 [DEBUG] [main] [org.hibernate.SQL] - create table seat (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), price bigint not null, schedule_id bigint not null, seat_no bigint not null, status enum ('AVAILABLE','OCCUPIED'), primary key (id)) engine=InnoDB
+20:13:10.067 [DEBUG] [main] [org.hibernate.SQL] - create table users (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB
+20:13:10.110 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:13:10.141 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UK5olubx2eijmky1ho93xn1rdkj unique (user_id)
+20:13:10.169 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UKguhbuflx1m69o0s2lb3uthg5l unique (token_uuid)
+20:13:10.189 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint FK1ysqvvjw3tyctcpgjpr5jsued foreign key (user_id) references users (id)
+20:13:11.358 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select count(qt1_0.id) from queue_token qt1_0 where qt1_0.status in (?,?)
+20:13:11.366 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:11.372 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:11.407 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:11.418 [DEBUG] [main] [org.hibernate.SQL] - select c1_0.id,c1_0.created_at,c1_0.deleted_at,c1_0.modified_at,c1_0.name from concert c1_0 where c1_0.id=?
+20:13:11.530 [DEBUG] [main] [org.hibernate.SQL] - SELECT * FROM schedule WHERE concert_id = ? ORDER BY schedule_date DESC LIMIT ? OFFSET ?
+20:13:12.317 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:12.334 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists concert
+20:13:12.354 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists payment
+20:13:12.382 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:13:12.401 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:12.422 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:12.447 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists reservation
+20:13:12.466 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists schedule
+20:13:12.492 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists seat
+20:13:12.520 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists users
+20:13:12.544 [DEBUG] [main] [org.hibernate.SQL] - create table concert (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), name varchar(255), primary key (id)) engine=InnoDB
+20:13:12.584 [DEBUG] [main] [org.hibernate.SQL] - create table payment (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), reservation_id bigint not null, user_id bigint not null, primary key (id)) engine=InnoDB
+20:13:12.634 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:13:12.680 [DEBUG] [main] [org.hibernate.SQL] - create table queue_offset (id bigint not null auto_increment, last_active_offset bigint, primary key (id)) engine=InnoDB
+20:13:12.720 [DEBUG] [main] [org.hibernate.SQL] - create table queue_token (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), running_expired_at datetime(6), user_id bigint, wait_offset BIGINT DEFAULT 0, token_uuid varchar(255), status enum ('ACTIVE','INVALID','WAIT'), primary key (id)) engine=InnoDB
+20:13:12.768 [DEBUG] [main] [org.hibernate.SQL] - create table reservation (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), seat_id bigint not null, user_id bigint not null, status enum ('RESERVED','TEMP'), primary key (id)) engine=InnoDB
+20:13:12.810 [DEBUG] [main] [org.hibernate.SQL] - create table schedule (schedule_date date, concert_id bigint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB
+20:13:12.850 [DEBUG] [main] [org.hibernate.SQL] - create table seat (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), price bigint not null, schedule_id bigint not null, seat_no bigint not null, status enum ('AVAILABLE','OCCUPIED'), primary key (id)) engine=InnoDB
+20:13:12.886 [DEBUG] [main] [org.hibernate.SQL] - create table users (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB
+20:13:12.919 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:13:12.947 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UK5olubx2eijmky1ho93xn1rdkj unique (user_id)
+20:13:12.969 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UKguhbuflx1m69o0s2lb3uthg5l unique (token_uuid)
+20:13:12.991 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint FK1ysqvvjw3tyctcpgjpr5jsued foreign key (user_id) references users (id)
+20:13:13.254 [DEBUG] [main] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:13:13.279 [DEBUG] [main] [org.hibernate.SQL] - update point set balance=?,modified_at=?,user_id=? where id=?
+20:13:13.282 [DEBUG] [main] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:13:13.801 [DEBUG] [main] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:13:14.796 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:14.813 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists concert
+20:13:14.834 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists payment
+20:13:14.870 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:13:14.892 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:14.916 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:14.939 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists reservation
+20:13:14.960 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists schedule
+20:13:14.985 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists seat
+20:13:15.007 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists users
+20:13:15.030 [DEBUG] [main] [org.hibernate.SQL] - create table concert (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), name varchar(255), primary key (id)) engine=InnoDB
+20:13:15.068 [DEBUG] [main] [org.hibernate.SQL] - create table payment (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), reservation_id bigint not null, user_id bigint not null, primary key (id)) engine=InnoDB
+20:13:15.112 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:13:15.151 [DEBUG] [main] [org.hibernate.SQL] - create table queue_offset (id bigint not null auto_increment, last_active_offset bigint, primary key (id)) engine=InnoDB
+20:13:15.186 [DEBUG] [main] [org.hibernate.SQL] - create table queue_token (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), running_expired_at datetime(6), user_id bigint, wait_offset BIGINT DEFAULT 0, token_uuid varchar(255), status enum ('ACTIVE','INVALID','WAIT'), primary key (id)) engine=InnoDB
+20:13:15.223 [DEBUG] [main] [org.hibernate.SQL] - create table reservation (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), seat_id bigint not null, user_id bigint not null, status enum ('RESERVED','TEMP'), primary key (id)) engine=InnoDB
+20:13:15.257 [DEBUG] [main] [org.hibernate.SQL] - create table schedule (schedule_date date, concert_id bigint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB
+20:13:15.290 [DEBUG] [main] [org.hibernate.SQL] - create table seat (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), price bigint not null, schedule_id bigint not null, seat_no bigint not null, status enum ('AVAILABLE','OCCUPIED'), primary key (id)) engine=InnoDB
+20:13:15.323 [DEBUG] [main] [org.hibernate.SQL] - create table users (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB
+20:13:15.361 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:13:15.386 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UK5olubx2eijmky1ho93xn1rdkj unique (user_id)
+20:13:15.414 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UKguhbuflx1m69o0s2lb3uthg5l unique (token_uuid)
+20:13:15.437 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint FK1ysqvvjw3tyctcpgjpr5jsued foreign key (user_id) references users (id)
+20:13:16.445 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select count(qt1_0.id) from queue_token qt1_0 where qt1_0.status in (?,?)
+20:13:16.450 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:16.456 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:17.376 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:17.394 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists concert
+20:13:17.409 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists payment
+20:13:17.424 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:13:17.443 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:17.464 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:17.487 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists reservation
+20:13:17.515 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists schedule
+20:13:17.541 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists seat
+20:13:17.571 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists users
+20:13:17.596 [DEBUG] [main] [org.hibernate.SQL] - create table concert (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), name varchar(255), primary key (id)) engine=InnoDB
+20:13:17.635 [DEBUG] [main] [org.hibernate.SQL] - create table payment (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), reservation_id bigint not null, user_id bigint not null, primary key (id)) engine=InnoDB
+20:13:17.689 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:13:17.748 [DEBUG] [main] [org.hibernate.SQL] - create table queue_offset (id bigint not null auto_increment, last_active_offset bigint, primary key (id)) engine=InnoDB
+20:13:17.800 [DEBUG] [main] [org.hibernate.SQL] - create table queue_token (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), running_expired_at datetime(6), user_id bigint, wait_offset BIGINT DEFAULT 0, token_uuid varchar(255), status enum ('ACTIVE','INVALID','WAIT'), primary key (id)) engine=InnoDB
+20:13:17.851 [DEBUG] [main] [org.hibernate.SQL] - create table reservation (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), seat_id bigint not null, user_id bigint not null, status enum ('RESERVED','TEMP'), primary key (id)) engine=InnoDB
+20:13:17.900 [DEBUG] [main] [org.hibernate.SQL] - create table schedule (schedule_date date, concert_id bigint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB
+20:13:17.957 [DEBUG] [main] [org.hibernate.SQL] - create table seat (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), price bigint not null, schedule_id bigint not null, seat_no bigint not null, status enum ('AVAILABLE','OCCUPIED'), primary key (id)) engine=InnoDB
+20:13:18.004 [DEBUG] [main] [org.hibernate.SQL] - create table users (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB
+20:13:18.053 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:13:18.082 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UK5olubx2eijmky1ho93xn1rdkj unique (user_id)
+20:13:18.119 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UKguhbuflx1m69o0s2lb3uthg5l unique (token_uuid)
+20:13:18.147 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint FK1ysqvvjw3tyctcpgjpr5jsued foreign key (user_id) references users (id)
+20:13:19.594 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select count(qt1_0.id) from queue_token qt1_0 where qt1_0.status in (?,?)
+20:13:19.599 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:19.606 [DEBUG] [scheduling-1] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.status=?
+20:13:19.686 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:19.710 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:19.723 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:19.735 [DEBUG] [main] [org.hibernate.SQL] - select qt1_0.id,qt1_0.created_at,qt1_0.deleted_at,qt1_0.modified_at,qt1_0.running_expired_at,qt1_0.status,qt1_0.token_uuid,qt1_0.user_id,qt1_0.wait_offset from queue_token qt1_0 where qt1_0.token_uuid=?
+20:13:21.243 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:21.946 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists concert
+20:13:21.972 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists payment
+20:13:22.001 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists point
+20:13:22.051 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:22.078 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:22.105 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists reservation
+20:13:22.133 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists schedule
+20:13:22.163 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists seat
+20:13:22.188 [DEBUG] [main] [org.hibernate.SQL] - drop table if exists users
+20:13:22.211 [DEBUG] [main] [org.hibernate.SQL] - create table concert (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), name varchar(255), primary key (id)) engine=InnoDB
+20:13:22.250 [DEBUG] [main] [org.hibernate.SQL] - create table payment (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), reservation_id bigint not null, user_id bigint not null, primary key (id)) engine=InnoDB
+20:13:22.293 [DEBUG] [main] [org.hibernate.SQL] - create table point (balance bigint not null, created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), user_id bigint, primary key (id)) engine=InnoDB
+20:13:22.341 [DEBUG] [main] [org.hibernate.SQL] - create table queue_offset (id bigint not null auto_increment, last_active_offset bigint, primary key (id)) engine=InnoDB
+20:13:22.397 [DEBUG] [main] [org.hibernate.SQL] - create table queue_token (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), running_expired_at datetime(6), user_id bigint, wait_offset BIGINT DEFAULT 0, token_uuid varchar(255), status enum ('ACTIVE','INVALID','WAIT'), primary key (id)) engine=InnoDB
+20:13:22.457 [DEBUG] [main] [org.hibernate.SQL] - create table reservation (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), seat_id bigint not null, user_id bigint not null, status enum ('RESERVED','TEMP'), primary key (id)) engine=InnoDB
+20:13:22.492 [DEBUG] [main] [org.hibernate.SQL] - create table schedule (schedule_date date, concert_id bigint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB
+20:13:22.524 [DEBUG] [main] [org.hibernate.SQL] - create table seat (created_at datetime(6), deleted_at datetime(6), id bigint not null auto_increment, modified_at datetime(6), price bigint not null, schedule_id bigint not null, seat_no bigint not null, status enum ('AVAILABLE','OCCUPIED'), primary key (id)) engine=InnoDB
+20:13:22.563 [DEBUG] [main] [org.hibernate.SQL] - create table users (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB
+20:13:22.599 [DEBUG] [main] [org.hibernate.SQL] - alter table point add constraint UKhq78fkgkdiel9lydwbq8vu9bt unique (user_id)
+20:13:22.626 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UK5olubx2eijmky1ho93xn1rdkj unique (user_id)
+20:13:22.651 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint UKguhbuflx1m69o0s2lb3uthg5l unique (token_uuid)
+20:13:22.677 [DEBUG] [main] [org.hibernate.SQL] - alter table queue_token add constraint FK1ysqvvjw3tyctcpgjpr5jsued foreign key (user_id) references users (id)
+20:13:23.027 [DEBUG] [main] [org.hibernate.SQL] - select p1_0.id,p1_0.balance,p1_0.created_at,p1_0.deleted_at,p1_0.modified_at,p1_0.user_id from point p1_0 where p1_0.user_id=?
+20:13:23.325 [DEBUG] [main] [org.hibernate.SQL] - select u1_0.id,u1_0.name from users u1_0 where u1_0.id=?
+20:13:23.362 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:23.384 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists concert
+20:13:23.402 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists payment
+20:13:23.419 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:13:23.440 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:23.463 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:23.483 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists reservation
+20:13:23.503 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists schedule
+20:13:23.521 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists seat
+20:13:23.546 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists users
+20:13:23.595 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:23.600 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists concert
+20:13:23.605 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists payment
+20:13:23.610 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:13:23.616 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:23.622 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:23.626 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists reservation
+20:13:23.632 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists schedule
+20:13:23.638 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists seat
+20:13:23.643 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists users
+20:13:23.659 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:23.664 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists concert
+20:13:23.670 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists payment
+20:13:23.676 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:13:23.682 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:23.689 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:23.694 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists reservation
+20:13:23.699 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists schedule
+20:13:23.704 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists seat
+20:13:23.711 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists users
+20:13:23.725 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:23.731 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists concert
+20:13:23.736 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists payment
+20:13:23.742 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:13:23.748 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:23.756 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:23.763 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists reservation
+20:13:23.770 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists schedule
+20:13:23.775 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists seat
+20:13:23.780 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists users
+20:13:23.803 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:23.816 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists concert
+20:13:23.826 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists payment
+20:13:23.832 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:13:23.837 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:23.842 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:23.846 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists reservation
+20:13:23.851 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists schedule
+20:13:23.856 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists seat
+20:13:23.861 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists users
+20:13:23.875 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - alter table queue_token drop foreign key FK1ysqvvjw3tyctcpgjpr5jsued
+20:13:23.879 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists concert
+20:13:23.884 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists payment
+20:13:23.889 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists point
+20:13:23.895 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_offset
+20:13:23.900 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists queue_token
+20:13:23.905 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists reservation
+20:13:23.910 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists schedule
+20:13:23.917 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists seat
+20:13:23.923 [DEBUG] [SpringApplicationShutdownHook] [org.hibernate.SQL] - drop table if exists users

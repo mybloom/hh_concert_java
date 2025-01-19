@@ -1,0 +1,37 @@
+logging:
+  level:
+    org.hibernate:
+      sql: debug
+      orm.jdbc.bind: trace
+
+spring:
+  application.name: hhplus
+  profiles:
+    active: test
+  datasource:
+    name: HangHaePlusDataSource
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3308/hhplus?characterEncoding=UTF-8&serverTimezone=UTC
+    username: application
+    password: application
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      format_sql: true
+      type:
+        descriptor:
+          sql: trace
+app:
+  scheduling:
+    enable: false
+server:
+  queue:
+    threshold: 1 #큐에 들어가는 최대 갯수
+    init-expiration-minutes: 1      #active 상태일 때 초기 부여 만료 시간(분)
+    payment-expiration-minutes: 1   #좌석 예약하고 추가 부여하는 만료 시간(분)
+page:
+  size: 10
+

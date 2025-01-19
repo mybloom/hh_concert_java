@@ -2,7 +2,7 @@ package kr.hhplus.be.server.domain.queuetoken.infrastructure;
 
 import jakarta.persistence.LockModeType;
 import java.util.Optional;
-import kr.hhplus.be.server.domain.queuetoken.domain.QueueOffset;
+import kr.hhplus.be.server.domain.queuetoken.model.QueueOffset;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;

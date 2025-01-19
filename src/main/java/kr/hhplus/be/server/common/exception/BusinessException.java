@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.common.exception;
 
+import kr.hhplus.be.server.common.exception.errorcode.ErrorCode;
 import lombok.Getter;
 
 @Getter

@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.domain.reservation.domain;
 
-import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.SEAT_ALREADY_RESERVED;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErrorCode.SEAT_ALREADY_RESERVED;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

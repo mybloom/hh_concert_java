@@ -1,7 +1,10 @@
 package kr.hhplus.be.server.domain.reservation.domain;
 
-import static kr.hhplus.be.server.common.exception.IllegalArgumentErrorCode.INVALID_RESERVATION_TIMEOUT;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalArgumentErrorCode.INVALID_RESERVATION_TIMEOUT;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_RESERVATION;
+import static kr.hhplus.be.server.common.exception.errorcode.IllegalStateErrorCode.UNVERIFIED_RESERVATION_STATUS;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import kr.hhplus.be.server.common.config.database.BaseEntity;
 import kr.hhplus.be.server.common.exception.BusinessIllegalArgumentException;
+import kr.hhplus.be.server.common.exception.BusinessIllegalStateException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +31,9 @@ public class Reservation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    @Column(unique = true)
     private long seatId;
 
     private long userId;
@@ -51,6 +56,17 @@ public class Reservation extends BaseEntity {
         if (minutesDifference > 5) {
             throw new BusinessIllegalArgumentException(INVALID_RESERVATION_TIMEOUT);
         }
+    }
+
+    public void assignReservedStatus() {
+        if(id == null){
+            throw new BusinessIllegalStateException(UNVERIFIED_RESERVATION);
+        }
+        if(status != ReservationStatus.TEMP){
+            throw new BusinessIllegalStateException(UNVERIFIED_RESERVATION_STATUS);
+        }
+
+        this.status = ReservationStatus.RESERVED;
     }
 
 }
