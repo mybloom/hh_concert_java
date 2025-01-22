@@ -44,3 +44,6 @@
 
 ## 4. 패키지 구조
 <img src="docs/패키지구조.png">
+
+## 5. 프로젝트 회고
+- [회고 문서 링크](https://devstep.tistory.com/133)
