@@ -44,3 +44,5 @@
 ## 4. 프로젝트 회고
 - [회고 문서 링크](https://devstep.tistory.com/133)
 
+## 5. 동시성 제어 방식 레포트
+- [동시성 제어 방식 레포트 링크](https://github.com/mybloom/hh_concert_java/wiki/Lock%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4-%EB%B0%A9%EC%8B%9D)
